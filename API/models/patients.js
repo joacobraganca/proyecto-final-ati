@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 require("dotenv/config");
 
 const contactSchema = new mongoose.Schema({
-  email: String,
   name: String,
   phone: Number,
 });

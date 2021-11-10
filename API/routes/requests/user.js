@@ -1,7 +1,5 @@
 const router = require("express").Router();
 const User = require("../models/users");
-const Tasks = require("../models/tasks");
-const HealthHome = require("../models/healthHome");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {
@@ -9,7 +7,6 @@ const {
   loginValidation,
   contactsValidation,
 } = require("../validation");
-const { validateIdentificationNumber } = require("ciuy");
 const { cleanIdNumber } = require("ciuy");
 const axios = require("axios");
 
@@ -19,19 +16,8 @@ router.post("/register", async (req, res) => {
   if (err) return res.status(400).send(err.details[0].message);
 
   //Valido cedula
-  let ci = req.body.document;
-  if (ci != null) {
-    cleanIdNumber(ci);
-    const validCI = validateIdentificationNumber(ci);
-    if (!validCI)
-      return res
-        .status(200)
-        .send({ customError: true, message: "La cédula no es valida." });
-    if (await ciExist(ci))
-      return res
-        .status(200)
-        .send({ customError: true, message: "La CI ya existe." });
-  }
+  validCi(req.body.document);
+  cleanCi = cleanIdNumber(req.body.document);
 
   //Encripto la contraseña
   const salt = bcrypt.genSaltSync(10);
@@ -41,9 +27,9 @@ router.post("/register", async (req, res) => {
   const user = new User({
     name: req.body.name,
     password: hashedPassword,
-    document: validCI,
+    document: cleanCi,
     roleAdmin: req.body.roleAdmin,
-    assignedHealthHome: req.body.assignedHealthHome,
+    assignedHomeHealth: req.body.assignedHomeHealth,
     tokenNotification: req.body.tokenNotification,
   });
   try {
@@ -98,7 +84,7 @@ router.post("/login", async (req, res) => {
   const userSend = new User({
     name: req.body.name,
     roleAdmin: req.body.roleAdmin,
-    assignedHealthHome: req.body.assignedHealthHome,
+    assignedHomeHealth: req.body.assignedHomeHealth,
     tokenNotification: req.body.tokenNotification,
   });
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
@@ -147,31 +133,6 @@ router.patch("/update", async (req, res) => {
     }
   );
 });
-
-router.post("/ci/exist", async (req, res) => {
-  let ci = req.body.document;
-
-  cleanIdNumber(ci);
-  const validCI = validateIdentificationNumber(ci);
-  if (!validCI)
-    return res
-      .status(200)
-      .send({ customError: true, message: "La cédula no es valida." });
-  if (await ciExist(ci))
-    return res
-      .status(200)
-      .send({ customError: true, message: "La CI ya existe." });
-  else
-    return res
-      .status(200)
-      .send({ customError: false, message: "La CI no existe." });
-});
-
-async function ciExist(ci) {
-  const user = await User.findOne({ document: ci });
-  if (user) return true;
-  return false;
-}
 
 //!CONTACTOS DE PACIENTE TODO
 router.post("/add/contact", async (req, res) => {

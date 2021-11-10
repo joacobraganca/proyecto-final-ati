@@ -12,6 +12,10 @@ const patientSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    document: {
+      type: String,
+      required: true,
+    },
     mutualist: {
       type: String,
       required: true,
@@ -36,9 +40,9 @@ const patientSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    assignedHealthHome: {
+    assignedHomeHealth: {
       type: Schema.Types.ObjectId,
-      ref: "HealthHome",
+      ref: "HomeHealth",
     },
     contacts: [contactSchema],
   },

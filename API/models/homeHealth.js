@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv/config");
 
-const healthHomeSchema = new mongoose.Schema({
+const homeHealthSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -9,8 +9,6 @@ const healthHomeSchema = new mongoose.Schema({
   address: {
     type: String,
     required: true,
-    min: 6,
-    max: 20,
   },
   phone: {
     type: String,
@@ -18,4 +16,4 @@ const healthHomeSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("HealthHome", healthHomeSchema);
+module.exports = mongoose.model("HomeHealth", homeHealthSchema);

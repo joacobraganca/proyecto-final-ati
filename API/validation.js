@@ -11,7 +11,7 @@ const registerValidation = (data) => {
       .regex(/^[a-zA-Z0-9]{8,20}$/),
     document: Joi.string(),
     roleAdmin: Joi.boolean().required(),
-    assignedHealthHome: Joi.string().required(),
+    assignedHomeHealth: Joi.string().required(),
     tokenNotification: Joi.string(),
   });
   return schema.validate(data);
@@ -37,7 +37,7 @@ const patientValidation = (data) => {
     pathologies: Joi.string().required(),
     caresAndComments: Joi.string().required(),
     pathologies: Joi.string().required(),
-    assignedHealthHome: Joi.string().required(),
+    assignedHomeHealth: Joi.string().required(),
   });
   return schema.validate(data);
 };
@@ -52,7 +52,27 @@ const contactsValidation = (data) => {
   return schema.validate(data);
 };
 
-module.exports.registerValidation = registerValidation;
-module.exports.contactsValidation = contactsValidation;
-module.exports.createPacientValidation = createPacientValidation;
+const taskValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    assignedUser: Joi.string().required(),
+    assignedHomeHealth: Joi.string().required(),
+  });
+  return schema.validate(data);
+};
+
+const homeHealthValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    address: Joi.string().required(),
+    phone: Joi.string().required(),
+  });
+  return schema.validate(data);
+};
+
 module.exports.loginValidation = loginValidation;
+module.exports.registerValidation = registerValidation;
+module.exports.patientValidation = patientValidation;
+module.exports.contactsValidation = contactsValidation;
+module.exports.taskValidation = taskValidation;
+module.exports.homeHealthValidation = homeHealthValidation;

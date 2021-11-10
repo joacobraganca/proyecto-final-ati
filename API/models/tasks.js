@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 require("dotenv/config");
 
 module.exports = mongoose.model("Users", userSchema);
-module.exports = mongoose.model("HealthHome", healthHomeSchema);
+module.exports = mongoose.model("HomeHealth", homeHealthSchema);
 
 const tasksSchema = new mongoose.Schema({
   name: {
@@ -13,9 +13,9 @@ const tasksSchema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: "Users",
   },
-  assignedHealthHome: {
+  assignedHomeHealth: {
     type: Schema.Types.ObjectId,
-    ref: "HealthHome",
+    ref: "HomeHealth",
   },
 });
 

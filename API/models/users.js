@@ -17,20 +17,15 @@ const userSchema = new mongoose.Schema(
     },
     document: {
       type: String,
-      encrypt: {
-        hash: {
-          unique: false,
-          index: false,
-        },
-      },
+      required: true,
     },
     roleAdmin: {
       type: Boolean,
       required: true,
     },
-    assignedHealthHome: {
+    assignedHomeHealth: {
       type: Schema.Types.ObjectId,
-      ref: "HealthHome",
+      ref: "homeHealth",
     },
     tokenNotification: {
       type: String,
@@ -38,20 +33,5 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-const encKey = process.env.ENC_KEY;
-const sigKey = process.env.SIG_KEY;
-const authKey = process.env.AUTH_KEY;
-
-userSchema.plugin(advancedEncryption, {
-  encryptionKey: encKey,
-  hashingKey: sigKey,
-  authenticationKey: authKey,
-  encrypt: {
-    hash: {
-      index: true,
-    },
-  },
-});
 
 module.exports = mongoose.model("User", userSchema);

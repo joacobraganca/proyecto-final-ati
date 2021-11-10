@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const Patient = require("../models/patients");
 const { contactsValidation } = require("../validation");
-const axios = require("axios");
 
 //Creacion de pacient
 router.post("/patient", async (req, res) => {
@@ -9,14 +8,19 @@ router.post("/patient", async (req, res) => {
   const { err } = patientValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
 
+  //Valido cedula
+  validCi(req.body.document);
+  cleanCi = cleanIdNumber(req.body.document);
+
   const patient = new Patient({
     name: req.body.name,
+    document: cleanCi,
     mutualist: req.body.mutualist,
     emergencyService: req.body.emergencyService,
     gpDoctor: req.body.gpDoctor,
     pathologies: req.body.pathologies,
     caresAndComments: req.body.caresAndComments,
-    assignedHealthHome: req.body.assignedHealthHome,
+    assignedHomeHealth: req.body.assignedHomeHealth,
   });
   try {
     await patient.save();
@@ -29,7 +33,7 @@ router.post("/patient", async (req, res) => {
 //Delete de pacient
 router.delete("/patient", async (req, res) => {
   try {
-    await Patient.findByIdAndRemove(req.query._id);
+    await Patient.findByIdAndRemove(req.query.document);
     return res.status(200).send({
       customError: false,
       message: "El paciente se ha borrado correctamente",
@@ -43,17 +47,22 @@ router.delete("/patient", async (req, res) => {
 router.patch("/patient", async (req, res) => {
   const { err } = patientValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
+
   //Valido cedula
+  validCi(req.body.document);
+  cleanCi = cleanIdNumber(req.body.document);
+
   await Patient.findOneAndUpdate(
-    { _id: req.body._id },
+    { document: req.body.document },
     {
       name: req.body.name,
+      document: cleanCi,
       mutualist: req.body.mutualist,
       emergencyService: req.body.emergencyService,
       gpDoctor: req.body.gpDoctor,
       pathologies: req.body.pathologies,
       caresAndComments: req.body.caresAndComments,
-      assignedHealthHome: req.body.assignedHealthHome,
+      assignedHomeHealth: req.body.assignedHomeHealth,
     },
     { new: true },
     (error) => {
@@ -71,7 +80,7 @@ router.patch("/patient", async (req, res) => {
 
 //Get de pacientes por homeHealthId
 router.get("/patient/homeId", async (req, res) => {
-  const patient = await Patient.find({ assignedHealthHome: req.query._id });
+  const patient = await Patient.find({ assignedHomeHealth: req.query._id });
   if (!patient)
     return res
       .status(200)
@@ -86,12 +95,12 @@ router.post("/patient/contact", async (req, res) => {
   try {
     //Busco si el paciente ya tiene un contacto con ese numero
     const results = await Patient.findOne({
-      _id: req.body._id,
+      document: req.body.document,
       "contacts.phone": req.body.phone,
     });
     if (!results) {
       await Patient.findOneAndUpdate(
-        { _id: req.body._id },
+        { document: req.body.document },
         {
           $push: {
             contacts: [

@@ -18,6 +18,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [],
@@ -37,6 +39,8 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatGridListModule,
     MatCardModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
   ],
   exports: [
     CommonModule,
@@ -54,6 +58,8 @@ import { MatCardModule } from '@angular/material/card';
     MatTableModule,
     MatGridListModule,
     MatCardModule,
+    MatSlideToggleModule,
+    MatCheckboxModule,
   ],
 })
 export class SharedModule {}

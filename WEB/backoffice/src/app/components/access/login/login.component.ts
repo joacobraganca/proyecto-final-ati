@@ -7,13 +7,13 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.sass'],
+  styleUrls: ['../access.component.sass', './login.component.sass'],
 })
 export class LoginComponent implements OnInit {
   @Input() isLogin: boolean = true;
   @Output() isLoginChange = new EventEmitter<boolean>();
 
-  form: FormGroup;
+  loginForm: FormGroup;
   errMsg: any;
   loading = false;
 
@@ -22,8 +22,8 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private router: Router // private userService: UserService
   ) {
-    this.form = this.fb.group({
-      user: ['', Validators.required],
+    this.loginForm = this.fb.group({
+      document: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   doLogin() {
-    const { user, password } = this.form.value;
+    const { user, password } = this.loginForm.value;
 
     // this.userService.login(user, password).subscribe(
     //   (user) => {

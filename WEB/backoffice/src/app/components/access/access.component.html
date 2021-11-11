@@ -5,5 +5,8 @@
     <div *ngIf="isLogin">
       <app-login [(isLogin)]="isLogin"></app-login>
     </div>
+    <div *ngIf="!isLogin">
+      <app-signup [(isLogin)]="isLogin"></app-signup>
+    </div>
   </div>
 </div>

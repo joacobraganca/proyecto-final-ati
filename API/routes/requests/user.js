@@ -1,14 +1,15 @@
 const router = require("express").Router();
-const User = require("../models/users");
+const mongoose = require("mongoose");
+const User = mongoose.model("User", require("../../models/users"));
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {
-  registerValidation,
+  registerUserValidation,
   loginValidation,
-  contactsValidation,
 } = require("../validation");
 const { cleanIdNumber } = require("ciuy");
 const axios = require("axios");
+const {validCi} = require("../utils");
 
 router.post("/register", async (req, res) => {
   //Validacion de los datos
@@ -16,7 +17,10 @@ router.post("/register", async (req, res) => {
   if (err) return res.status(400).send(err.details[0].message);
 
   //Valido cedula
-  validCi(req.body.document);
+  response = await validCi(req.body.document, User)
+  if (response && response.status == 400){
+    return res.status(400).send(response.message);
+  };
   cleanCi = cleanIdNumber(req.body.document);
 
   //Encripto la contraseña
@@ -52,20 +56,20 @@ router.post("/login", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   //Valida documento de que el email esté registrado en la base
-  const user = await User.findOne({ email: req.body.document });
+  const user = await User.findOne({ document: cleanIdNumber(req.body.document) });
 
   if (!user)
-    return res.status(200).send({
+    return res.status(400).send({
       customError: true,
-      message: "El email/contraseña no es correcto.",
+      message: "El documento/contraseña no es correcto.",
     });
 
   //Corroboro si la contraseña es correcta
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword)
-    return res.status(200).send({
+    return res.status(400).send({
       customError: true,
-      message: "El email/contraseña no es correcto.",
+      message: "El documento/contraseña no es correcto.",
     });
 
   try {
@@ -76,170 +80,19 @@ router.post("/login", async (req, res) => {
     }
   } catch (err) {
     //Envio el error
-    console.log("Login error");
     res.status(400).send(err);
   }
 
   //Creo y asigno el token
   const userSend = new User({
-    name: req.body.name,
-    roleAdmin: req.body.roleAdmin,
-    assignedHomeHealth: req.body.assignedHomeHealth,
-    tokenNotification: req.body.tokenNotification,
+    name: user.name,
+    roleAdmin: user.roleAdmin,
+    assignedHomeHealth: user.assignedHomeHealth,
+    tokenNotification: user.tokenNotification,
   });
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
   res.header("auth-token", token);
   res.send({ customError: false, message: userSend });
-});
-
-//!UPDATE DE PACIENTE
-//TODO
-router.patch("/update", async (req, res) => {
-  const { err } = registerValidation(req.body);
-  if (err) return res.status(400).send(err.details[0].message);
-  //Valido cedula
-  await User.findOneAndUpdate(
-    { email: req.body.email.toLowerCase() },
-    {
-      name: req.body.name,
-      gender: req.body.gender,
-      roleUnder: req.body.roleUnder,
-      roleElderly: req.body.roleElderly,
-      tutorEmail: req.body.tutorEmail,
-      physicalDisability: req.body.physicalDisability,
-      physicalDisabilityConfig: req.body.physicalDisabilityConfig,
-      visualDisability: req.body.visualDisability,
-      visualDisabilityConfig: req.body.visualDisabilityConfig,
-      alarmBtn: req.body.alarmBtn,
-      birthDate: req.body.birthDate,
-      contacts: req.body.contacts,
-      location: {
-        latitude: req.body.location.latitude,
-        longitude: req.body.location.longitude,
-      },
-      tokenNotification: req.body.tokenNotification,
-    },
-    { new: true },
-    (error) => {
-      if (error) {
-        console.log("update error");
-        return res.status(400).send(error);
-      } else {
-        return res.status(200).send({
-          customError: false,
-          message: "Usuario actualizado correctamente",
-        });
-      }
-    }
-  );
-});
-
-//!CONTACTOS DE PACIENTE TODO
-router.post("/add/contact", async (req, res) => {
-  const { err } = contactsValidation(req.body);
-  if (err) return res.status(400).send(err.details[0].message);
-  try {
-    //Busco si el usuario ya tiene ese contacto
-    const results = await User.findOne({
-      email: req.body.emailUsr,
-      "contacts.email": req.body.email,
-    });
-    if (!results) {
-      await User.findOneAndUpdate(
-        { email: req.body.emailUsr },
-        {
-          $push: {
-            contacts: [
-              {
-                email: req.body.email,
-                name: req.body.name,
-              },
-            ],
-          },
-        }
-      );
-      res
-        .status(201)
-        .send({ customError: false, message: "Contacto añadido exitosamente" });
-    } else
-      return res
-        .status(200)
-        .send({ customError: true, message: "El contacto ya existe" });
-  } catch (err) {
-    //Envio el error
-    console.log("add contact error");
-    res.status(400).send(err.message);
-  }
-});
-
-//!CONTACTOS DE PACIENTE TODO
-router.get("/get/contacts", async (req, res) => {
-  //Validacion de que el email esté registrado en la base
-  const user = await Patients.findOne({ email: req.query.email });
-  if (!user)
-    return res
-      .status(200)
-      .send({ customError: true, message: "El usuario no es válido." });
-  else
-    return res.status(200).send({ customError: false, message: user.contacts });
-});
-
-//!CONTACTOS DE PACIENTE TODO
-router.get("/get", async (req, res) => {
-  //Validacion de que el email esté registrado en la base
-  const user = await User.findOne({ email: req.query.email });
-  if (!user)
-    return res
-      .status(200)
-      .send({ customError: true, message: "El usuario no es válido." });
-  else return res.status(200).send({ customError: false, message: user });
-});
-
-//*HECHO PARA PACIENTES ALREADY
-router.get("/get/byname", async (req, res) => {
-  const nameRegex = new RegExp(req.query.name);
-  let patients = [];
-  patients = await Patients.find({
-    name: { $regex: nameRegex, $options: "i" },
-  });
-  return res.status(200).send({ customError: false, message: patients });
-});
-
-//!DELETE DE PACIENTES
-router.delete("/delete", async (req, res) => {
-  try {
-    await User.findByIdAndRemove(req.body._id);
-    return res.status(200).send({
-      customError: false,
-      message: "El usuario se ha borrado correctamente",
-    });
-  } catch (err) {
-    console.log("get byname error");
-    res.status(400).send(err.message);
-  }
-});
-
-//!DELETE DE CONTACTOS DE PACIENTE TODO
-router.delete("/delete/contact", async (req, res) => {
-  try {
-    await User.update(
-      { email: req.query.email },
-      {
-        $pull: {
-          contacts: {
-            email: req.query.emailDel,
-          },
-        },
-      }
-    );
-    return res.status(200).send({
-      customError: false,
-      message: "El contacto se ha borrado correctamente",
-    });
-  } catch (err) {
-    console.log("delete contact error");
-    res.status(400).send(err.message);
-  }
 });
 
 //! NOTIFICATION

@@ -16,4 +16,4 @@ const homeHealthSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("HomeHealth", homeHealthSchema);
+module.exports = homeHealthSchema;

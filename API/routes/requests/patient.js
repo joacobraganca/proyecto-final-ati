@@ -1,15 +1,21 @@
+const mongoose = require("mongoose");
+const {validCi} = require("../utils")
+const { cleanIdNumber } = require("ciuy");
 const router = require("express").Router();
-const Patient = require("../models/patients");
-const { contactsValidation } = require("../validation");
+const { patientValidation, contactsValidation } = require("../validation");
+const Patient = mongoose.model("Patient", require("../../models/patients"));
 
 //Creacion de pacient
-router.post("/patient", async (req, res) => {
+router.post("", async (req, res) => {
   //Validacion de los datos
   const { err } = patientValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
 
   //Valido cedula
-  validCi(req.body.document);
+  response = await validCi(req.body.document, Patient)
+  if (response && response.status == 400){
+    return res.status(400).send(response.message);
+  };
   cleanCi = cleanIdNumber(req.body.document);
 
   const patient = new Patient({
@@ -24,19 +30,24 @@ router.post("/patient", async (req, res) => {
   });
   try {
     await patient.save();
-    res.status(200).send({ customError: false, message: patient });
+    return res.status(200).send({ customError: false, message: patient });
   } catch (err) {
-    res.status(400).send(err);
+    return res.status(400).send(err);
   }
 });
 
 //Delete de pacient
-router.delete("/patient", async (req, res) => {
+router.delete("", async (req, res) => {
   try {
-    await Patient.findByIdAndRemove(req.query.document);
-    return res.status(200).send({
+    if(await Patient.findOneAndRemove(req.query.document)){
+      return res.status(200).send({
+        customError: false,
+        message: "El paciente se ha borrado correctamente",
+      });
+    }
+    return res.status(404).send({
       customError: false,
-      message: "El paciente se ha borrado correctamente",
+      message: "No se ha encontrado ningún paciente",
     });
   } catch (err) {
     res.status(400).send(err.message);
@@ -44,7 +55,7 @@ router.delete("/patient", async (req, res) => {
 });
 
 //Update de pacient
-router.patch("/patient", async (req, res) => {
+router.put("", async (req, res) => {
   const { err } = patientValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
 
@@ -52,18 +63,19 @@ router.patch("/patient", async (req, res) => {
   validCi(req.body.document);
   cleanCi = cleanIdNumber(req.body.document);
 
+  const updateQuery = {};
+
+  if (req.body.details) {
+    updateQuery.details = req.body.details
+  }
+  
+  if (req.body.completed) {
+    updateQuery.completed = req.body.completed
+  }
+
   await Patient.findOneAndUpdate(
     { document: req.body.document },
-    {
-      name: req.body.name,
-      document: cleanCi,
-      mutualist: req.body.mutualist,
-      emergencyService: req.body.emergencyService,
-      gpDoctor: req.body.gpDoctor,
-      pathologies: req.body.pathologies,
-      caresAndComments: req.body.caresAndComments,
-      assignedHomeHealth: req.body.assignedHomeHealth,
-    },
+    {updateQuery},
     { new: true },
     (error) => {
       if (error) {
@@ -79,7 +91,7 @@ router.patch("/patient", async (req, res) => {
 });
 
 //Get de pacientes por homeHealthId
-router.get("/patient/homeId", async (req, res) => {
+router.get("/homeId", async (req, res) => {
   const patient = await Patient.find({ assignedHomeHealth: req.query._id });
   if (!patient)
     return res
@@ -89,7 +101,7 @@ router.get("/patient/homeId", async (req, res) => {
 });
 
 //Agrego contacto al paciente
-router.post("/patient/contact", async (req, res) => {
+router.post("/contact", async (req, res) => {
   const { err } = contactsValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
   try {
@@ -126,12 +138,19 @@ router.post("/patient/contact", async (req, res) => {
 });
 
 //Get de pacientes por nombre
-router.get("/patient/byname", async (req, res) => {
+router.get("/byname", async (req, res) => {
   const nameRegex = new RegExp(req.query.name);
   const patients = await Patient.find({
     name: { $regex: nameRegex, $options: "i" },
   });
-  return res.status(200).send({ customError: false, message: patients });
+  if(patients){
+    return res.status(200).send({ customError: false, message: patients });
+  }else{
+    return res
+        .status(404)
+        .send({ customError: true, message: "No se encontro ningún paciente con ese nombre." });
+  }
+  
 });
 
 module.exports = router;

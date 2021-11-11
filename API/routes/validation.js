@@ -1,7 +1,7 @@
 const Joi = require("@hapi/joi");
 
 //Validacion de registro
-const registerValidation = (data) => {
+const registerUserValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     password: Joi.string()
@@ -20,7 +20,7 @@ const registerValidation = (data) => {
 //Validacion de login
 const loginValidation = (data) => {
   const schema = Joi.object({
-    email: Joi.string().email().required().min(6),
+    document: Joi.string(),
     password: Joi.string().required().min(8).max(20),
     tokenNotification: Joi.string(),
   });
@@ -33,10 +33,9 @@ const patientValidation = (data) => {
     mutualist: Joi.string().required(),
     emergencyService: Joi.string().required(),
     gpDoctor: Joi.string().required(),
-    partnerService: Joi.string().required(),
-    pathologies: Joi.string().required(),
-    caresAndComments: Joi.string().required(),
-    pathologies: Joi.string().required(),
+    partnerService: Joi.string(),
+    pathologies: Joi.string(),
+    caresAndComments: Joi.string(),
     assignedHomeHealth: Joi.string().required(),
   });
   return schema.validate(data);
@@ -71,7 +70,7 @@ const homeHealthValidation = (data) => {
 };
 
 module.exports.loginValidation = loginValidation;
-module.exports.registerValidation = registerValidation;
+module.exports.registerUserValidation = registerUserValidation;
 module.exports.patientValidation = patientValidation;
 module.exports.contactsValidation = contactsValidation;
 module.exports.taskValidation = taskValidation;

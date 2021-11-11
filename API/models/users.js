@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-const advancedEncryption = require("mongoose-advanced-encryption");
+const homeHealthSchema = require("./homeHealth");
 require("dotenv/config");
+
+const HomeHealth = mongoose.model('HomeHealth', homeHealthSchema);
 
 const userSchema = new mongoose.Schema(
   {
@@ -24,8 +26,8 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     assignedHomeHealth: {
-      type: Schema.Types.ObjectId,
-      ref: "homeHealth",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "HomeHealth",
     },
     tokenNotification: {
       type: String,
@@ -34,4 +36,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = userSchema;

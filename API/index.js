@@ -4,8 +4,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 //Importar rutas
 //const postsRoutes = require("./routes/posts");
-const requestsRoute = require("./routes/requests");
-const validateTokenRoute = require("./routes/validateToken");
+const requestsRouteUser = require("./routes/requests/user");
+const requestsRouteTask = require("./routes/requests/task");
+const requestsRoutePatient = require("./routes/requests/patient");
+const requestsRouteHomeHealth = require("./routes/requests/homeHealth");
+//const validateTokenRoute = require("./routes/validateToken");
 const cors = require("cors");
 mongoose.set("useFindAndModify", false);
 require("dotenv/config");
@@ -17,8 +20,11 @@ mongoose.set("useCreateIndex", true);
 app.use(bodyParser.json());
 app.use(express.json());
 //app.use("/posts", postsRoutes);
-app.use("/api/user", requestsRoute);
-app.use("/api/mapa", validateTokenRoute);
+app.use("/api/user", requestsRouteUser);
+app.use("/api/task", requestsRouteTask);
+app.use("/api/patient", requestsRoutePatient);
+app.use("/api/homeHealth", requestsRouteHomeHealth);
+//app.use("/api/mapa", validateTokenRoute);
 
 //Rutas
 app.get("/", (req, res) => {

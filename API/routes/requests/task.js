@@ -1,8 +1,10 @@
+const mongoose = require("mongoose");
 const router = require("express").Router();
-const Task = require("../models/tasks");
+const Task = mongoose.model("Task", require("../../models/tasks"));
+const { taskValidation } = require("../validation");
 
 //Creacion de tarea
-router.post("/task", async (req, res) => {
+router.post("", async (req, res) => {
   //Validacion de los datos
   const { err } = taskValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
@@ -21,25 +23,30 @@ router.post("/task", async (req, res) => {
 });
 
 //Delete de tarea
-router.delete("/task", async (req, res) => {
+router.delete("", async (req, res) => {
   try {
-    await Task.findByIdAndRemove(req.query._id);
-    return res.status(200).send({
+    if(await Task.findByIdAndRemove(req.query._id)){
+      return res.status(200).send({
+        customError: false,
+        message: "La tarea se ha borrado correctamente",
+      });
+    };
+    return res.status(404).send({
       customError: false,
-      message: "La tarea se ha borrado correctamente",
+      message: "La tarea no se ha encontrado",
     });
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
 //Get de pacientes por homeHealthId
-router.get("/task/homeId", async (req, res) => {
+router.get("/homeId", async (req, res) => {
   const task = await Task.find({ assignedHomeHealth: req.query._id });
-  if (!task)
+  if (!task.length)
     return res
-      .status(200)
-      .send({ customError: true, message: "La tarea no es válido." });
+      .status(404)
+      .send({ customError: true, message: "No existen tareas para esa casa de salud." });
   else return res.status(200).send({ customError: false, message: task });
 });
 

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
+const homeHealthSchema = require("./homeHealth");
 require("dotenv/config");
+
+const HomeHealth = mongoose.model('HomeHealth', homeHealthSchema);
 
 const contactSchema = new mongoose.Schema({
   name: String,
@@ -30,18 +33,15 @@ const patientSchema = new mongoose.Schema(
     },
     partnerService: {
       type: String,
-      required: true,
     },
     pathologies: {
       type: String,
-      required: true,
     },
     caresAndComments: {
       type: String,
-      required: true,
     },
     assignedHomeHealth: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "HomeHealth",
     },
     contacts: [contactSchema],
@@ -49,4 +49,4 @@ const patientSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Patients", patientSchema);
+module.exports = patientSchema;

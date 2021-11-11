@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
     await user.save();
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
     res.header("auth-token", token);
-    res.status(200).send({ customError: false, message: user });
+    res.status(200).send({ message: user });
   } catch (err) {
     //Envio el error
     res.status(400).send(err);
@@ -60,16 +60,16 @@ router.post("/login", async (req, res) => {
 
   if (!user)
     return res.status(400).send({
-      customError: true,
-      message: "El documento/contraseña no es correcto.",
+       
+    message: "El documento/contraseña no es correcto.",
     });
 
   //Corroboro si la contraseña es correcta
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword)
     return res.status(400).send({
-      customError: true,
-      message: "El documento/contraseña no es correcto.",
+       
+    message: "El documento/contraseña no es correcto.",
     });
 
   try {
@@ -92,7 +92,7 @@ router.post("/login", async (req, res) => {
   });
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
   res.header("auth-token", token);
-  res.send({ customError: false, message: userSend });
+  res.send({ message: userSend });
 });
 
 //! NOTIFICATION

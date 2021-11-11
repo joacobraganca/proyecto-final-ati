@@ -9,13 +9,13 @@ module.exports = {
       if (!validCI){
         return {
           status: 400,
-          message: "La cédula no es valida."
+        message: "La cédula no es valida."
         }
       }
       else if (await ciExist(document, entity)){
         return {
           status: 400,
-          message: "La CI ya existe."
+        message: "La CI ya existe."
         }
       }
     }
@@ -28,13 +28,13 @@ module.exports = {
       if (!validCI){
         return {
           status: 400,
-          message: "La cédula no es valida."
+        message: "La cédula no es valida."
         }
       }
       else if (!await ciExist(document, entity)){
         return {
           status: 400,
-          message: "La CI no existe."
+        message: "La CI no existe."
         }
       }
     }

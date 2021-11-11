@@ -18,7 +18,7 @@ router.post("", async (req, res) => {
   });
   try {
     await homeHealth.save();
-    res.status(200).send({ customError: false, message: homeHealth });
+    res.status(200).send({ message: homeHealth });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -30,8 +30,8 @@ router.get("", async (req, res) => {
   if (!homeHealth)
     return res
       .status(404)
-      .send({ customError: true, message: "La casa de salud no existe." });
-  else return res.status(200).send({ customError: false, message: homeHealth });
+      .send({ message: "La casa de salud no existe." });
+  else return res.status(200).send({ message: homeHealth });
 });
 
 //Get todas las casas de salud 
@@ -40,8 +40,8 @@ router.get("/all", async (req, res) => {
   if (!homeHealth)
     return res
       .status(404)
-      .send({ customError: true, message: "No existen casas de salud." });
-  else return res.status(200).send({ customError: false, message: homeHealth });
+      .send({ message: "No existen casas de salud." });
+  else return res.status(200).send({ message: homeHealth });
 });
 
 module.exports = router;

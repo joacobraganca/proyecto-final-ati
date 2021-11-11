@@ -16,7 +16,7 @@ router.post("", async (req, res) => {
   });
   try {
     await task.save();
-    res.status(200).send({ customError: false, message: task });
+    res.status(200).send({ message: task });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -27,13 +27,13 @@ router.delete("", async (req, res) => {
   try {
     if(await Task.findByIdAndRemove(req.query._id)){
       return res.status(200).send({
-        customError: false,
-        message: "La tarea se ha borrado correctamente",
+         
+      message: "La tarea se ha borrado correctamente",
       });
     };
     return res.status(404).send({
-      customError: false,
-      message: "La tarea no se ha encontrado",
+       
+    message: "La tarea no se ha encontrado",
     });
   } catch (err) {
     res.status(500).send(err.message);
@@ -46,8 +46,8 @@ router.get("/homeId", async (req, res) => {
   if (!task.length)
     return res
       .status(404)
-      .send({ customError: true, message: "No existen tareas para esa casa de salud." });
-  else return res.status(200).send({ customError: false, message: task });
+      .send({ message: "No existen tareas para esa casa de salud." });
+  else return res.status(200).send({ message: task });
 });
 
 module.exports = router;

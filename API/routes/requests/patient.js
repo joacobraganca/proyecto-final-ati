@@ -4,7 +4,6 @@ const { cleanIdNumber } = require("ciuy");
 const router = require("express").Router();
 const { patientValidation, contactsValidation } = require("../validation");
 const Patient = mongoose.model("Patient", require("../../models/patients"));
-const { validateIdentificationNumber } = require("ciuy");
 
 //Creacion de pacient
 router.post("", async (req, res) => {
@@ -32,7 +31,7 @@ router.post("", async (req, res) => {
   });
   try {
     await patient.save();
-    return res.status(200).send({ customError: false, message: patient });
+    return res.status(200).send({ message: patient });
   } catch (err) {
     return res.status(400).send(err);
   }
@@ -43,13 +42,13 @@ router.delete("", async (req, res) => {
   try {
     if(await Patient.findOneAndRemove(req.query.document)){
       return res.status(200).send({
-        customError: false,
-        message: "El paciente se ha borrado correctamente",
+         
+      message: "El paciente se ha borrado correctamente",
       });
     }
     return res.status(404).send({
-      customError: false,
-      message: "No se ha encontrado ningún paciente",
+       
+    message: "No se ha encontrado ningún paciente",
     });
   } catch (err) {
     res.status(400).send(err.message);
@@ -89,8 +88,8 @@ router.get("/homeId", async (req, res) => {
   if (!patient.length)
     return res
       .status(200)
-      .send({ customError: true, message: "No existen pacientes para esa casa de salud." });
-  else return res.status(200).send({ customError: false, message: patient });
+      .send({ message: "No existen pacientes para esa casa de salud." });
+  else return res.status(200).send({ message: patient });
 });
 
 //Agrego contacto al paciente
@@ -127,11 +126,11 @@ router.put("/contact", async (req, res) => {
       );
       res
         .status(200)
-        .send({ customError: false, message: "Contacto añadido exitosamente" });
+        .send({ message: "Contacto añadido exitosamente" });
     } else
       return res
         .status(200)
-        .send({ customError: true, message: "El contacto ya existe" });
+        .send({ message: "El contacto ya existe" });
   } catch (err) {
     //Envio el error
     res.status(400).send(err.message);
@@ -165,13 +164,13 @@ router.delete("/contact", async (req, res) => {
       }
     );
     return res.status(200).send({
-      customError: true,
-      message: "El contacto se ha borrado correctamente",
+       
+    message: "El contacto se ha borrado correctamente",
     });
   } else
     return res
       .status(200)
-      .send({ customError: true, message: "El contacto no existe" });
+      .send({ message: "El contacto no existe" });
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -184,11 +183,11 @@ router.get("/byname", async (req, res) => {
     name: { $regex: nameRegex, $options: "i" },
   });
   if(patients){
-    return res.status(200).send({ customError: false, message: patients });
+    return res.status(200).send({ message: patients });
   }else{
     return res
         .status(404)
-        .send({ customError: true, message: "No se encontro ningún paciente con ese nombre." });
+        .send({ message: "No se encontro ningún paciente con ese nombre." });
   }
   
 });

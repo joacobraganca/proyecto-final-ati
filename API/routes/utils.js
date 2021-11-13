@@ -6,17 +6,16 @@ module.exports = {
     if (ci != null) {
       document = cleanIdNumber(ci);
       const validCI = validateIdentificationNumber(document);
-      if (!validCI){
+      if (!validCI) {
         return {
           status: 400,
-        message: "La cédula no es valida."
-        }
-      }
-      else if (await ciExist(document, entity)){
+          message: "La cédula no es valida.",
+        };
+      } else if (await ciExist(document, entity)) {
         return {
           status: 400,
-        message: "La CI ya existe."
-        }
+          message: "La CI ya existe.",
+        };
       }
     }
   },
@@ -25,17 +24,16 @@ module.exports = {
     if (ci != null) {
       document = cleanIdNumber(ci);
       const validCI = validateIdentificationNumber(document);
-      if (!validCI){
+      if (!validCI) {
         return {
           status: 400,
-        message: "La cédula no es valida."
-        }
-      }
-      else if (!await ciExist(document, entity)){
+          message: "La cédula no es valida.",
+        };
+      } else if (!(await ciExist(document, entity))) {
         return {
           status: 400,
-        message: "La CI no existe."
-        }
+          message: "La CI no existe.",
+        };
       }
     }
   },

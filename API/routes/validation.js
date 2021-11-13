@@ -8,11 +8,31 @@ const registerUserValidation = (data) => {
       .required()
       .min(8)
       .max(20)
-      .regex(/^[a-zA-Z0-9]{8,20}$/),
-    document: Joi.string(),
+      .regex(/^[a-zA-Z0-9]{8,20}$/)
+      .error((errors) => {
+        errors.forEach((err) => {
+          switch (err.code) {
+            case "any.required":
+              err.message = `La contraseña debe de ser obligatoria`;
+              break;
+            case "string.min":
+              err.message = `La contraseña debe de tener minimo ${err.local.limit} caracteres!`;
+              break;
+            case "string.max":
+              err.message = `La contraseña debe de tener maximo ${err.local.limit} caracteres!`;
+              break;
+            case "string.regex":
+              err.message = `La contraseña tiene caracteres inválidos!`;
+              break;
+            default:
+              break;
+          }
+        });
+        return errors;
+      }),
+    document: Joi.string().required(),
     roleAdmin: Joi.boolean().required(),
-    assignedHomeHealth: Joi.string().required(),
-    tokenNotification: Joi.string(),
+    assignedHealthHome: Joi.string().required(),
   });
   return schema.validate(data);
 };
@@ -20,13 +40,38 @@ const registerUserValidation = (data) => {
 //Validacion de login
 const loginValidation = (data) => {
   const schema = Joi.object({
-    document: Joi.string(),
-    password: Joi.string().required().min(8).max(20),
-    tokenNotification: Joi.string(),
+    document: Joi.string().required(),
+    password: Joi.string()
+      .required()
+      .min(8)
+      .max(20)
+      .regex(/^[a-zA-Z0-9]{8,20}$/)
+      .error((errors) => {
+        errors.forEach((err) => {
+          switch (err.type) {
+            case "any.required":
+              err.message = `La contraseña debe de ser obligatoria`;
+              break;
+            case "string.min":
+              err.message = `La contraseña debe de tener minimo ${err.context.limit} caracteres!`;
+              break;
+            case "string.max":
+              err.message = `La contraseña debe de tener maximo ${err.context.limit} caracteres!`;
+              break;
+            case "string.regex":
+              err.message = `La contraseña tiene caracteres inválidos!`;
+              break;
+            default:
+              break;
+          }
+        });
+        return errors;
+      }),
   });
   return schema.validate(data);
 };
 
+//Validacion de los pacientes
 const patientValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
@@ -36,7 +81,7 @@ const patientValidation = (data) => {
     partnerService: Joi.string(),
     pathologies: Joi.string(),
     caresAndComments: Joi.string(),
-    assignedHomeHealth: Joi.string().required(),
+    assignedHealthHome: Joi.string().required(),
   });
   return schema.validate(data);
 };
@@ -45,26 +90,28 @@ const patientValidation = (data) => {
 const contactsValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required().required(),
-    email: Joi.string().email().required(),
+    document: Joi.string().required(),
     phone: Joi.number().required(),
   });
   return schema.validate(data);
 };
 
+//Validacion de las tareas
 const taskValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     assignedUser: Joi.string().required(),
-    assignedHomeHealth: Joi.string().required(),
+    assignedHealthHome: Joi.string().required(),
   });
   return schema.validate(data);
 };
 
-const homeHealthValidation = (data) => {
+//Validacion de l os healthHome
+const healthHomeValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     address: Joi.string().required(),
-    phone: Joi.string().required(),
+    phone: Joi.number().required(),
   });
   return schema.validate(data);
 };
@@ -74,4 +121,4 @@ module.exports.registerUserValidation = registerUserValidation;
 module.exports.patientValidation = patientValidation;
 module.exports.contactsValidation = contactsValidation;
 module.exports.taskValidation = taskValidation;
-module.exports.homeHealthValidation = homeHealthValidation;
+module.exports.healthHomeValidation = healthHomeValidation;

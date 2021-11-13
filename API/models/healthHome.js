@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv/config");
 
-const homeHealthSchema = new mongoose.Schema({
+const healthHomeSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -16,4 +16,4 @@ const homeHealthSchema = new mongoose.Schema({
   },
 });
 
-module.exports = homeHealthSchema;
+module.exports = healthHomeSchema;

@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const homeHealthSchema = require("./homeHealth");
+const healthHomeSchema = require("./healthHome");
 require("dotenv/config");
 
-const HomeHealth = mongoose.model('HomeHealth', homeHealthSchema);
+const HealthHome = mongoose.model("HealthHome", healthHomeSchema);
 
 const userSchema = new mongoose.Schema(
   {
@@ -25,9 +25,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
-    assignedHomeHealth: {
+    assignedHealthHome: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "HomeHealth",
+      ref: "HealthHome",
     },
     tokenNotification: {
       type: String,

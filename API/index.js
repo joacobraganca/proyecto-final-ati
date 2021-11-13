@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const requestsRouteUser = require("./routes/requests/user");
 const requestsRouteTask = require("./routes/requests/task");
 const requestsRoutePatient = require("./routes/requests/patient");
-const requestsRouteHomeHealth = require("./routes/requests/homeHealth");
+const requestsRouteHealthHome = require("./routes/requests/healthHome");
 //const validateTokenRoute = require("./routes/validateToken");
 const cors = require("cors");
 mongoose.set("useFindAndModify", false);
@@ -15,7 +15,7 @@ require("dotenv/config");
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Our app is running on port ${ PORT }`);
+  console.log(`Our app is running on port ${PORT}`);
 });
 app.use(cors());
 mongoose.set("useCreateIndex", true);
@@ -27,7 +27,7 @@ app.use(express.json());
 app.use("/api/user", requestsRouteUser);
 app.use("/api/task", requestsRouteTask);
 app.use("/api/patient", requestsRoutePatient);
-app.use("/api/homeHealth", requestsRouteHomeHealth);
+app.use("/api/healthHome", requestsRouteHealthHome);
 //app.use("/api/mapa", validateTokenRoute);
 
 //Rutas

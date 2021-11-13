@@ -1,12 +1,18 @@
 const mongoose = require("mongoose");
-const homeHealthSchema = require("./homeHealth");
+const healthHomeSchema = require("./healthHome");
 require("dotenv/config");
 
-const HomeHealth = mongoose.model('HomeHealth', homeHealthSchema);
+const HealthHome = mongoose.model("HealthHome", healthHomeSchema);
 
 const contactSchema = new mongoose.Schema({
-  name: String,
-  phone: Number,
+  name: {
+    type: String,
+    required: true,
+  },
+  phone: {
+    type: String,
+    required: true,
+  },
 });
 
 const patientSchema = new mongoose.Schema(
@@ -40,9 +46,9 @@ const patientSchema = new mongoose.Schema(
     caresAndComments: {
       type: String,
     },
-    assignedHomeHealth: {
+    assignedHealthHome: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "HomeHealth",
+      ref: "HealthHome",
     },
     contacts: [contactSchema],
   },

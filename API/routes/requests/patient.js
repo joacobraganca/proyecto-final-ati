@@ -1,21 +1,22 @@
 const mongoose = require("mongoose");
-const {validCi, existCi} = require("../utils")
+const { validCi, existCi } = require("../utils");
 const { cleanIdNumber } = require("ciuy");
 const router = require("express").Router();
 const { patientValidation, contactsValidation } = require("../validation");
 const Patient = mongoose.model("Patient", require("../../models/patients"));
+const verify = require("../verifyToken");
 
 //Creacion de pacient
-router.post("", async (req, res) => {
+router.post("", verify, async (req, res) => {
   //Validacion de los datos
   const { err } = patientValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
 
   //Valido cedula
-  response = await validCi(req.body.document, Patient)
-  if (response && response.status == 400){
+  response = await validCi(req.body.document, Patient);
+  if (response && response.status == 400) {
     return res.status(400).send(response.message);
-  };
+  }
   cleanCi = cleanIdNumber(req.body.document);
 
   const patient = new Patient({
@@ -27,80 +28,72 @@ router.post("", async (req, res) => {
     partnerService: req.body.partnerService,
     pathologies: req.body.pathologies,
     caresAndComments: req.body.caresAndComments,
-    assignedHomeHealth: req.body.assignedHomeHealth,
+    assignedHealthHome: req.body.assignedHealthHome,
   });
   try {
     await patient.save();
-    return res.status(200).send({ message: patient });
+    return res.status(200).send(patient);
   } catch (err) {
     return res.status(400).send(err);
   }
 });
 
 //Delete de pacient
-router.delete("", async (req, res) => {
+router.delete("", verify, async (req, res) => {
   try {
-    if(await Patient.findOneAndRemove(req.query.document)){
-      return res.status(200).send({
-         
-      message: "El paciente se ha borrado correctamente",
-      });
+    if (await Patient.findOneAndRemove(req.query.document)) {
+      return res.status(200).send("El paciente se ha borrado correctamente");
     }
-    return res.status(404).send({
-       
-    message: "No se ha encontrado ningún paciente",
-    });
+    return res.status(404).send("No se ha encontrado ningún paciente");
   } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
 //Update de pacient
-router.put("", async (req, res) => {
-  if(!req.body.document){
-    return res.status(400).send("El documento es requerido.")
+router.put("", verify, async (req, res) => {
+  if (!req.body.document) {
+    return res.status(400).send("El documento es requerido.");
   }
 
-  response = await existCi(req.body.document, Patient)
-  if (response && response.status == 400){
+  response = await existCi(req.body.document, Patient);
+  if (response && response.status == 400) {
     return res.status(400).send(response.message);
-  };
+  }
 
   cleanCi = cleanIdNumber(req.body.document);
 
   await Patient.findOneAndUpdate(
     { document: cleanCi },
-    {$set: req.body},
+    { $set: req.body },
     { new: true },
     (error, results) => {
       if (error) {
         return res.status(400).send(error);
-      } else{
+      } else {
         return res.status(200).send(results);
       }
     }
   );
 });
 
-//Get de pacientes por homeHealthId
-router.get("/homeId", async (req, res) => {
-  const patient = await Patient.find({ assignedHomeHealth: req.query._id });
+//Get de pacientes por healthHomeId
+router.get("/homeId", verify, async (req, res) => {
+  const patient = await Patient.find({ assignedHealthHome: req.query._id });
   if (!patient.length)
-    return res
-      .status(200)
-      .send({ message: "No existen pacientes para esa casa de salud." });
-  else return res.status(200).send({ message: patient });
+    return res.status(200).send("No existen pacientes para esa casa de salud.");
+  else return res.status(200).send(patient);
 });
 
 //Agrego contacto al paciente
-router.put("/contact", async (req, res) => {
+router.put("/contact", verify, async (req, res) => {
   const { err } = contactsValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
 
-  response = await existCi(req.body.document, Patient)
-  if (response && response.status == 400){
+  response = await existCi(req.body.document, Patient);
+  if (response && response.status == 400) {
     return res.status(400).send(response.message);
-  };
+  }
 
   cleanCi = cleanIdNumber(req.body.document);
 
@@ -124,13 +117,8 @@ router.put("/contact", async (req, res) => {
           },
         }
       );
-      res
-        .status(200)
-        .send({ message: "Contacto añadido exitosamente" });
-    } else
-      return res
-        .status(200)
-        .send({ message: "El contacto ya existe" });
+      res.status(200).send("Contacto añadido exitosamente");
+    } else return res.status(200).send("El contacto ya existe");
   } catch (err) {
     //Envio el error
     res.status(400).send(err.message);
@@ -138,12 +126,11 @@ router.put("/contact", async (req, res) => {
 });
 
 //Borrar contacto al paciente
-router.delete("/contact", async (req, res) => {
-
-  response = await existCi(req.body.document, Patient)
-  if (response && response.status == 400){
+router.delete("/contact", verify, async (req, res) => {
+  response = await existCi(req.body.document, Patient);
+  if (response && response.status == 400) {
     return res.status(400).send(response.message);
-  };
+  }
 
   cleanCi = cleanIdNumber(req.body.document);
 
@@ -153,43 +140,38 @@ router.delete("/contact", async (req, res) => {
       "contacts.phone": req.body.phone,
     });
     if (results) {
-    await Patient.updateOne(
-      { document: cleanCi },
-      {
-        $pull: {
-          contacts: {
-            phone: req.body.phone,
+      await Patient.updateOne(
+        { document: cleanCi },
+        {
+          $pull: {
+            contacts: {
+              phone: req.body.phone,
+            },
           },
-        },
-      }
-    );
-    return res.status(200).send({
-       
-    message: "El contacto se ha borrado correctamente",
-    });
-  } else
-    return res
-      .status(200)
-      .send({ message: "El contacto no existe" });
+        }
+      );
+      return res.status(200).send("El contacto se ha borrado correctamente");
+    } else {
+      return res.status(200).send("El contacto no existe");
+    }
   } catch (err) {
     res.status(400).send(err.message);
   }
 });
 
 //Get de pacientes por nombre
-router.get("/byname", async (req, res) => {
+router.get("/byname", verify, async (req, res) => {
   const nameRegex = new RegExp(req.query.name);
   const patients = await Patient.find({
     name: { $regex: nameRegex, $options: "i" },
   });
-  if(patients){
-    return res.status(200).send({ message: patients });
-  }else{
+  if (patients) {
+    return res.status(200).send(patients);
+  } else {
     return res
-        .status(404)
-        .send({ message: "No se encontro ningún paciente con ese nombre." });
+      .status(404)
+      .send("No se encontro ningún paciente con ese nombre.");
   }
-  
 });
 
 module.exports = router;

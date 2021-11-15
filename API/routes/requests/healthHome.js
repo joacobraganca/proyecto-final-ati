@@ -40,7 +40,7 @@ router.get("", verify, async (req, res) => {
 });
 
 //Get todas las casas de salud
-router.get("/all", verify, async (req, res) => {
+router.get("/all", async (req, res) => {
   const healthHome = await HealthHome.find({});
   if (!healthHome) return res.status(404).send("No existen casas de salud.");
   else return res.status(200).send(healthHome);

@@ -20,10 +20,10 @@ app.listen(PORT, () => {
 
 app.use(
   cors({
-    exposedHeaders: ["Auth-Token"],
-    allowedHeaders: ["Auth-Token"],
+    exposedHeaders: ["Authorization"],
   })
 );
+
 mongoose.set("useCreateIndex", true);
 
 //Middlewares (Funciones)

@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
     //const usuaurioGuardado =
     await user.save();
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
-    res.header("Auth-Token", token);
+    res.header("Authorization", token);
     res.status(200).send(user);
   } catch (err) {
     //Envio el error
@@ -84,7 +84,7 @@ router.post("/login", async (req, res) => {
     tokenNotification: user.tokenNotification,
   });
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
-  res.header("Auth-Token", token);
+  res.header("Authorization", token);
   res.send(userSend);
 });
 

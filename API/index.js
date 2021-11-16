@@ -20,7 +20,7 @@ app.listen(PORT, () => {
 
 app.use(
   cors({
-    exposedHeaders: ["Authorization"],
+    exposedHeaders: ["Authorization", "Content-type"],
   })
 );
 

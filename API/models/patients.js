@@ -37,10 +37,13 @@ const patientSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    pathologies: [
+      {
+        type: String,
+        required: true,
+      },
+    ],
     partnerService: {
-      type: String,
-    },
-    pathologies: {
       type: String,
     },
     caresAndComments: {

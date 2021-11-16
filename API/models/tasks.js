@@ -14,6 +14,11 @@ const tasksSchema = new mongoose.Schema({
   dateTime: {
     type: Date,
   },
+  status: {
+    type: String,
+    enum: ["pendiente", "en curso", "cerrado"],
+    default: "pendiente",
+  },
   assignedUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",

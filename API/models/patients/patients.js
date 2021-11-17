@@ -7,10 +7,12 @@ const pathologiesSchema = require("./pathologies");
 const partnerServiceSchema = require("./partnerService");
 const HealthHome = mongoose.model("HealthHome", healthHomeSchema);
 const Hospital = mongoose.model("Hospital", hospitalSchema);
-const EmergencyService = mongoose.model("EmergencyService", emergencyServiceSchema);
+const EmergencyService = mongoose.model(
+  "EmergencyService",
+  emergencyServiceSchema
+);
 const Pathologies = mongoose.model("Pathologies", pathologiesSchema);
 const PartnerService = mongoose.model("PartnerService", partnerServiceSchema);
-
 
 const contactSchema = new mongoose.Schema({
   name: {
@@ -61,6 +63,10 @@ const patientSchema = new mongoose.Schema(
     assignedHealthHome: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "HealthHome",
+    },
+    admissionDate: {
+      type: Date,
+      required: true,
     },
     contacts: [contactSchema],
   },

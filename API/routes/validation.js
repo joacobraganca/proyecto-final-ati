@@ -82,6 +82,7 @@ const patientValidation = (data) => {
     pathologies: Joi.string(),
     caresAndComments: Joi.string(),
     assignedHealthHome: Joi.string().required(),
+    admissionDate: Joi.date().required(),
   });
   return schema.validate(data);
 };

@@ -40,6 +40,10 @@ router.put("", verify, async (req, res) => {
   if (!req.query._id) {
     return res.status(400).send("El id es requerido.");
   }
+  
+  if(!Hospital.findById(req.query._id)){
+    return res.status(404).send("No se ha encontrado ningún hospital");
+  }
 
   await Hospital.findByIdAndUpdate(
     { _id: req.query._id },
@@ -52,7 +56,7 @@ router.put("", verify, async (req, res) => {
         return res.status(200).send(results);
       }
     }
-  );
+  )
 });
 
 //Get de todos los hospital

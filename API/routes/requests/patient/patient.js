@@ -3,7 +3,7 @@ const { validCi, existCi } = require("../../utils");
 const { cleanIdNumber } = require("ciuy");
 const router = require("express").Router();
 const { patientValidation, contactsValidation } = require("../../validation");
-const Patient = mongoose.model("Patient", require("../../../models/patients/patients"));
+const Patient = mongoose.model("Patient", require("../../../models/patients"));
 const verify = require("../../verifyToken");
 
 //Creacion de pacient

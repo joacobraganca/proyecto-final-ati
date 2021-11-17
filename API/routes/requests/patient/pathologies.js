@@ -40,6 +40,10 @@ router.put("", verify, async (req, res) => {
   if (!req.query._id) {
     return res.status(400).send("El id es requerido.");
   }
+  
+  if(!Pathologies.findById(req.query._id)){
+    return res.status(404).send("No se ha encontrado ningúna patología");
+  }
 
   await Pathologies.findByIdAndUpdate(
     { _id: req.query._id },

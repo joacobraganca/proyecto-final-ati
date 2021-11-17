@@ -41,6 +41,10 @@ router.put("", verify, async (req, res) => {
     return res.status(400).send("El id es requerido.");
   }
 
+  if(!EmergencyService.findById(req.query._id)){
+    return res.status(404).send("No se ha encontrado ningún servicio de emergencia");
+  }
+
   await EmergencyService.findByIdAndUpdate(
     { _id: req.query._id },
     { $set: req.body },

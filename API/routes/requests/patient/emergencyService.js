@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const router = require("express").Router();
-const EmergencyService = mongoose.model("EmergencyService", require("../../../models/patients/emergencyService"));
+const EmergencyService = mongoose.model(
+  "EmergencyService",
+  require("../../../models/patients/emergencyService")
+);
 const { emergencyServiceValidation } = require("../../validation");
 const verify = require("../../verifyToken");
 
@@ -27,9 +30,13 @@ router.delete("", verify, async (req, res) => {
   }
   try {
     if (await EmergencyService.findByIdAndRemove(req.query._id)) {
-      return res.status(200).send("El servicio de emergencia se ha borrado correctamente");
+      return res
+        .status(200)
+        .send("El servicio de emergencia se ha borrado correctamente");
     }
-    return res.status(404).send("No se ha encontrado ningún servicio de emergencia");
+    return res
+      .status(404)
+      .send("No se ha encontrado ningún servicio de emergencia");
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -41,8 +48,10 @@ router.put("", verify, async (req, res) => {
     return res.status(400).send("El id es requerido.");
   }
 
-  if(!EmergencyService.findById(req.query._id)){
-    return res.status(404).send("No se ha encontrado ningún servicio de emergencia");
+  if (!(await EmergencyService.findById(req.query._id))) {
+    return res
+      .status(404)
+      .send("No se ha encontrado ningún servicio de emergencia");
   }
 
   await EmergencyService.findByIdAndUpdate(
@@ -62,7 +71,8 @@ router.put("", verify, async (req, res) => {
 //Get todas los servicios de emergencia
 router.get("", async (req, res) => {
   const emergencyService = await EmergencyService.find({});
-  if (!emergencyService) return res.status(404).send("No existen servicios de emergencia");
+  if (!emergencyService)
+    return res.status(404).send("No existen servicios de emergencia");
   else return res.status(200).send(emergencyService);
 });
 

@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const router = require("express").Router();
-const PartnerService = mongoose.model("PartnerService", require("../../../models/patients/partnerService"));
+const PartnerService = mongoose.model(
+  "PartnerService",
+  require("../../../models/patients/partnerService")
+);
 const { partnerServiceValidation } = require("../../validation");
 const verify = require("../../verifyToken");
 
@@ -8,7 +11,7 @@ const verify = require("../../verifyToken");
 router.post("", verify, async (req, res) => {
   const { err } = partnerServiceValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
-  
+
   const partnerService = new PartnerService({
     name: req.body.name,
   });
@@ -27,9 +30,13 @@ router.delete("", verify, async (req, res) => {
   }
   try {
     if (await PartnerService.findByIdAndRemove(req.query._id)) {
-      return res.status(200).send("El servicio de acompañante se ha borrado correctamente");
+      return res
+        .status(200)
+        .send("El servicio de acompañante se ha borrado correctamente");
     }
-    return res.status(404).send("No se ha encontrado ningún servicio de acompañante");
+    return res
+      .status(404)
+      .send("No se ha encontrado ningún servicio de acompañante");
   } catch (err) {
     res.status(400).send(err.message);
   }
@@ -41,8 +48,10 @@ router.put("", verify, async (req, res) => {
     return res.status(400).send("El id es requerido.");
   }
 
-  if(!PartnerService.findById(req.query._id)){
-    return res.status(404).send("No se ha encontrado ningún servicio de acompañante");
+  if (!(await PartnerService.findById(req.query._id))) {
+    return res
+      .status(404)
+      .send("No se ha encontrado ningún servicio de acompañante");
   }
 
   await PartnerService.findByIdAndUpdate(
@@ -62,7 +71,8 @@ router.put("", verify, async (req, res) => {
 //Get de los servicios de acompañante
 router.get("", async (req, res) => {
   const partnerService = await PartnerService.find({});
-  if (!partnerService) return res.status(404).send("No existen servicios de acompañante");
+  if (!partnerService)
+    return res.status(404).send("No existen servicios de acompañante");
   else return res.status(200).send(partnerService);
 });
 

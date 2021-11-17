@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const router = require("express").Router();
-const Pathologies = mongoose.model("Pathologies", require("../../../models/patients/pathologies"));
+const Pathologies = mongoose.model(
+  "Pathologies",
+  require("../../../models/patients/pathologies")
+);
 const { pathologiesValidation } = require("../../validation");
 const verify = require("../../verifyToken");
 
@@ -8,7 +11,7 @@ const verify = require("../../verifyToken");
 router.post("", verify, async (req, res) => {
   const { err } = pathologiesValidation(req.body);
   if (err) return res.status(400).send(err.details[0].message);
-  
+
   const pathologies = new Pathologies({
     name: req.body.name,
   });
@@ -40,8 +43,8 @@ router.put("", verify, async (req, res) => {
   if (!req.query._id) {
     return res.status(400).send("El id es requerido.");
   }
-  
-  if(!Pathologies.findById(req.query._id)){
+
+  if (!(await Pathologies.findById(req.query._id))) {
     return res.status(404).send("No se ha encontrado ningúna patología");
   }
 

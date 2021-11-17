@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const router = require("express").Router();
-const Hospital = mongoose.model("Hospital", require("../../../models/patients/hospital"));
+const Hospital = mongoose.model(
+  "Hospital",
+  require("../../../models/patients/hospital")
+);
 const { hospitalValidation } = require("../../validation");
 const verify = require("../../verifyToken");
 
@@ -40,8 +43,8 @@ router.put("", verify, async (req, res) => {
   if (!req.query._id) {
     return res.status(400).send("El id es requerido.");
   }
-  
-  if(!Hospital.findById(req.query._id)){
+
+  if (!(await Hospital.findById(req.query._id))) {
     return res.status(404).send("No se ha encontrado ningún hospital");
   }
 
@@ -56,7 +59,7 @@ router.put("", verify, async (req, res) => {
         return res.status(200).send(results);
       }
     }
-  )
+  );
 });
 
 //Get de todos los hospital

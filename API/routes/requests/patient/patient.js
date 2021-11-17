@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const { validCi, existCi } = require("../utils");
+const { validCi, existCi } = require("../../utils");
 const { cleanIdNumber } = require("ciuy");
 const router = require("express").Router();
-const { patientValidation, contactsValidation } = require("../validation");
-const Patient = mongoose.model("Patient", require("../../models/patients"));
-const verify = require("../verifyToken");
+const { patientValidation, contactsValidation } = require("../../validation");
+const Patient = mongoose.model("Patient", require("../../../models/patients/patients"));
+const verify = require("../../verifyToken");
 
 //Creacion de pacient
 router.post("", verify, async (req, res) => {

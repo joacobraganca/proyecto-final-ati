@@ -2,13 +2,17 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-//Importar rutas
-//const postsRoutes = require("./routes/posts");
+
+//RUTAS
 const requestsRouteUser = require("./routes/requests/user");
 const requestsRouteTask = require("./routes/requests/task");
-const requestsRoutePatient = require("./routes/requests/patient");
+const requestsRoutePatient = require("./routes/requests/patient/patient");
 const requestsRouteHealthHome = require("./routes/requests/healthHome");
-//const validateTokenRoute = require("./routes/validateToken");
+const requestsRouteEmergencyService = require("./routes/requests/patient/emergencyService");
+const requestsRouteHospital = require("./routes/requests/patient/hospital");
+const requestsRoutePartnerService = require("./routes/requests/patient/partnerService");
+const requestsRoutePathologies = require("./routes/requests/patient/pathologies");
+
 const cors = require("cors");
 mongoose.set("useFindAndModify", false);
 require("dotenv/config");
@@ -34,7 +38,10 @@ app.use("/api/user", requestsRouteUser);
 app.use("/api/task", requestsRouteTask);
 app.use("/api/patient", requestsRoutePatient);
 app.use("/api/healthHome", requestsRouteHealthHome);
-//app.use("/api/mapa", validateTokenRoute);
+app.use("/api/emergencyService", requestsRouteEmergencyService);
+app.use("/api/hospital", requestsRouteHospital);
+app.use("/api/partnerService", requestsRoutePartnerService);
+app.use("/api/pathologies", requestsRoutePathologies);
 
 //Rutas
 app.get("/", (req, res) => {

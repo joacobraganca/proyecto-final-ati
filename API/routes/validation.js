@@ -106,12 +106,44 @@ const taskValidation = (data) => {
   return schema.validate(data);
 };
 
-//Validacion de l os healthHome
+//Validacion de los healthHome
 const healthHomeValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
     address: Joi.string().required(),
     phone: Joi.number().required(),
+  });
+  return schema.validate(data);
+};
+
+//Validacion de los healthHome
+const emergencyServiceValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  return schema.validate(data);
+};
+
+//Validacion de los healthHome
+const hospitalValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  return schema.validate(data);
+};
+
+//Validacion de los healthHome
+const pathologiesValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+  });
+  return schema.validate(data);
+};
+
+//Validacion de los healthHome
+const partnerServiceValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().required(),
   });
   return schema.validate(data);
 };
@@ -122,3 +154,7 @@ module.exports.patientValidation = patientValidation;
 module.exports.contactsValidation = contactsValidation;
 module.exports.taskValidation = taskValidation;
 module.exports.healthHomeValidation = healthHomeValidation;
+module.exports.partnerServiceValidation = partnerServiceValidation;
+module.exports.pathologiesValidation = pathologiesValidation;
+module.exports.hospitalValidation = hospitalValidation;
+module.exports.emergencyServiceValidation = emergencyServiceValidation;

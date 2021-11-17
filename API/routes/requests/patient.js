@@ -81,7 +81,7 @@ router.put("", verify, async (req, res) => {
 router.get("/homeId", verify, async (req, res) => {
   const patient = await Patient.find({ assignedHealthHome: req.query._id });
   if (!patient.length)
-    return res.status(200).send("No existen pacientes para esa casa de salud.");
+    return res.status(404).send("No existen pacientes para esa casa de salud.");
   else return res.status(200).send(patient);
 });
 
@@ -118,7 +118,7 @@ router.put("/contact", verify, async (req, res) => {
         }
       );
       res.status(200).send("Contacto añadido exitosamente");
-    } else return res.status(200).send("El contacto ya existe");
+    } else return res.status(400).send("El contacto ya existe");
   } catch (err) {
     //Envio el error
     res.status(400).send(err.message);
@@ -152,7 +152,7 @@ router.delete("/contact", verify, async (req, res) => {
       );
       return res.status(200).send("El contacto se ha borrado correctamente");
     } else {
-      return res.status(200).send("El contacto no existe");
+      return res.status(404).send("El contacto no existe");
     }
   } catch (err) {
     res.status(400).send(err.message);

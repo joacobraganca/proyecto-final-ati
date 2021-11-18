@@ -39,10 +39,14 @@ export class PatientService {
       ['Authorization']: this.token,
     };
     const body = JSON.stringify(patient);
-    return this.http.post('http://localhost:3000/api/patient', body, {
-      headers,
-      observe: 'response',
-      responseType: 'text' as 'json',
-    });
+    return this.http.post(
+      'https://healthhomeapi.herokuapp.com/api/patient',
+      body,
+      {
+        headers,
+        observe: 'response',
+        responseType: 'text' as 'json',
+      }
+    );
   }
 }

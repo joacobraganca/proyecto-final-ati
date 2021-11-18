@@ -41,10 +41,14 @@ export class UserService {
       'Content-type': 'application/json',
     };
     const body = JSON.stringify({ document, password });
-    return this.http.post('http://localhost:3000/api/user/login', body, {
-      headers,
-      observe: 'response',
-    });
+    return this.http.post(
+      'https://healthhomeapi.herokuapp.com/api/user/login',
+      body,
+      {
+        headers,
+        observe: 'response',
+      }
+    );
   }
 
   signup(

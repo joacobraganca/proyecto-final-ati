@@ -13,6 +13,13 @@ const routes: Routes = [
     component: LoginComponent,
   },
   { path: '**', redirectTo: 'access', pathMatch: 'full' },
+  {
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./components/dashboard/dashboard.module').then(
+        (x) => x.DashboardModule
+      ),
+  },
 ];
 
 @NgModule({

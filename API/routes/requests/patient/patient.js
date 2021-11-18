@@ -25,7 +25,7 @@ router.post("", verify, async (req, res) => {
   const patient = new Patient({
     name: req.body.name,
     document: cleanCi,
-    mutualist: req.body.mutualist,
+    hospital: req.body.hospital,
     emergencyService: req.body.emergencyService,
     gpDoctor: req.body.gpDoctor,
     partnerService: req.body.partnerService,

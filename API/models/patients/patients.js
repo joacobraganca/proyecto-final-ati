@@ -38,10 +38,12 @@ const patientSchema = new mongoose.Schema(
     hospital: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Hospital",
+      required: true,
     },
     emergencyService: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "EmergencyService",
+      required: true,
     },
     gpDoctor: {
       type: String,
@@ -63,6 +65,7 @@ const patientSchema = new mongoose.Schema(
     assignedHealthHome: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "HealthHome",
+      required: true,
     },
     admissionDate: {
       type: Date,

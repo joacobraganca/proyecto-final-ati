@@ -31,9 +31,9 @@
 
   <mat-form-field class="login-element-width" appearance="fill">
     <mat-label>Casa de salud:</mat-label>
-    <mat-select name="healthHouses" formControlName="healthHouse">
-      <mat-option *ngFor="let house of healthHouses" [value]="house">
-        {{ house }}
+    <mat-select name="healthHome" formControlName="healthHome">
+      <mat-option *ngFor="let home of healthHomes" [value]="home._id">
+        {{ home.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>

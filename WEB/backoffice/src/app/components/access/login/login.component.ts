@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-//import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
-    private router: Router // private userService: UserService
+    private router: Router,
+    private userService: UserService
   ) {
     this.loginForm = this.fb.group({
       document: ['', Validators.required],
@@ -31,17 +32,27 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   doLogin() {
-    const { user, password } = this.loginForm.value;
+    const { document, password } = this.loginForm.value;
 
-    // this.userService.login(user, password).subscribe(
-    //   (user) => {
-    //     this.userService.setUser(user);
-    //     this.redirect();
-    //   },
-    //   ({ error: { mensaje } }) => {
-    //     this.error(mensaje);
-    //   }
-    // );
+    this.userService.login(document, password).subscribe(
+      (response) => {
+        this.userService.setUser(response.body);
+        if (this.userService.getRole() === true) {
+          const token = response.headers.get('Authorization') || '';
+          localStorage.setItem('id_token', token);
+          this.redirect();
+        } else {
+          this.error('Su usuario no contiene los permisos necesarios');
+        }
+      },
+      (error) => {
+        if (error.status >= 400 && error.status < 500) {
+          this.error('Verifique documento y/o contraseña');
+        } else {
+          this.error('Ocurrió un error inesperado');
+        }
+      }
+    );
   }
 
   error(err: any) {

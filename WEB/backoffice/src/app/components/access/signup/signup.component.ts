@@ -2,7 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-//import { UserService } from '../../services/user.service';
+import { HealthHome } from 'src/app/interfaces/healthHome';
+import { UserService } from '../../../services/user.service';
+import { HealthHomeService } from 'src/app/services/healthHome.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,27 +19,33 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup;
   errMsg: any;
   loading = false;
-  healthHouses = ['Residencial 1', 'Residencial 2'];
+  healthHomes: HealthHome[] = [];
 
   constructor(
     private fb: FormBuilder,
     private _snackBar: MatSnackBar,
-    private router: Router // private userService: UserService
+    private router: Router,
+    private userService: UserService,
+    private healthHomeService: HealthHomeService
   ) {
     this.signupForm = this.fb.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
       repeatPassword: ['', Validators.required],
       document: ['', Validators.required],
-      healthHouse: [Validators.required],
+      healthHome: [Validators.required],
       isAdmin: [false],
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.healthHomeService.getHealthHomes().subscribe((response) => {
+      this.healthHomes = response.healthHomes;
+    });
+  }
 
   doSignup() {
-    const { name, password, repeatPassword, document, healthHouse, isAdmin } =
+    const { name, password, repeatPassword, document, healthHome, isAdmin } =
       this.signupForm.value;
 
     if (password.length < 8) {
@@ -45,15 +53,25 @@ export class SignupComponent implements OnInit {
     } else if (password !== repeatPassword) {
       this.error('Las contraseñas no coinciden.');
     } else {
-      // this.userService.login(user, password).subscribe(
-      //   (user) => {
-      //     this.userService.setUser(user);
-      //     this.redirect();
-      //   },
-      //   ({ error: { mensaje } }) => {
-      //     this.error(mensaje);
-      //   }
-      // );
+      this.userService
+        .signup(name, password, repeatPassword, document, healthHome, isAdmin)
+        .subscribe(
+          (response) => {
+            this.userService.setUser(response.body);
+            localStorage.setItem(
+              'id_token',
+              response.headers.get('Authorization') || ''
+            );
+            this.redirect();
+          },
+          (error) => {
+            if (error.status >= 400 && error.status < 500) {
+              this.error('Verifique documento y/o contraseña');
+            } else {
+              this.error('Ocurrió un error inesperado');
+            }
+          }
+        );
     }
   }
 

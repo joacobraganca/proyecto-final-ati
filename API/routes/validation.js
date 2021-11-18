@@ -75,6 +75,7 @@ const loginValidation = (data) => {
 const patientValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
+    document: Joi.string().required(),
     mutualist: Joi.string().required(),
     emergencyService: Joi.string().required(),
     gpDoctor: Joi.string().required(),

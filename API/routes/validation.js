@@ -106,7 +106,8 @@ const taskValidation = (data) => {
     description: Joi.string(),
     priority: Joi.boolean().required(),
     status: Joi.string().valid('pendiente', 'enCurso', "cerrado"),
-    assignedUser: Joi.string().required(),
+    assignedPatient: Joi.string(),
+    assignedUser: Joi.string(),
     assignedHealthHome: Joi.string().required(),
   });
   return schema.validate(data);

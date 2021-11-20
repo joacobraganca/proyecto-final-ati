@@ -17,6 +17,7 @@ router.post("", verify, async (req, res) => {
     status: req.body.status,
     priority: req.body.priority,
     assignedUser: req.body.assignedUser,
+    assignedPatient: req.body.assignedPatient,
     assignedHealthHome: req.body.assignedHealthHome,
   });
   try {

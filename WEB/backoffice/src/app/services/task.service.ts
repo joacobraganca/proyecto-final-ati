@@ -1,46 +1,46 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Paciente } from '../interfaces/paciente';
+import { Tarea } from '../interfaces/tarea';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PatientService {
+export class TaskService {
   constructor(private http: HttpClient) {}
   token = localStorage.getItem('id_token') || '';
 
   // Obtener todos los pacientes por casa de salud
-  getPatientsByHome(healthHome: string): Observable<HttpResponse<Paciente[]>> {
+  getTaskByHome(healthHome: string): Observable<HttpResponse<Tarea[]>> {
     const headers = {
       'Content-type': 'application/json',
       ['Authorization']: this.token,
     };
-    return this.http.get<Paciente[]>(
-      `https://healthhomeapi.herokuapp.com/api/patient/homeId?_id=${healthHome}`,
+    return this.http.get<Tarea[]>(
+      `https://healthhomeapi.herokuapp.com/api/task/homeId?_id=${healthHome}`,
       { headers, observe: 'response' }
     );
   }
 
-  deletePatientById(id: string): any {
+  deleteTaskById(id: string): any {
     const headers = {
       'Content-type': 'application/json',
       ['Authorization']: this.token,
     };
     return this.http.delete<any>(
-      `https://healthhomeapi.herokuapp.com/api/patient?document=${id}`,
+      `https://healthhomeapi.herokuapp.com/api/task?_id=${id}`,
       { headers, responseType: 'text' as 'json', observe: 'response' }
     );
   }
 
-  createPatient(patient: any) {
+  createTask(task: any) {
     const headers = {
       'Content-type': 'application/json',
       ['Authorization']: this.token,
     };
-    const body = JSON.stringify(patient);
+    const body = JSON.stringify(task);
     return this.http.post(
-      'https://healthhomeapi.herokuapp.com/api/patient',
+      'https://healthhomeapi.herokuapp.com/api/task',
       body,
       {
         headers,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormArray } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -11,6 +11,7 @@ import { PatientService } from 'src/app/services/patient.service';
 import { UserService } from 'src/app/services/user.service';
 import { MiscService } from 'src/app/services/misc.service';
 import { Misc } from 'src/app/interfaces/misc';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface TableData {
   contactName: string;
@@ -59,7 +60,8 @@ export class CrearPacienteComponent implements OnInit {
     private fb: FormBuilder,
     private patientService: PatientService,
     private miscService: MiscService,
-    private userService: UserService
+    private userService: UserService,
+    @Inject(MAT_DIALOG_DATA) public parentData: any
   ) {
     this.firstFormGroup = this.fb.group({
       document: ['', Validators.required],
@@ -182,7 +184,7 @@ export class CrearPacienteComponent implements OnInit {
 
     this.patientService.createPatient(patient).subscribe(
       (response) => {
-        console.log(response);
+        this.parentData.closeDialog();
       },
       (error) => {
         console.log(error);

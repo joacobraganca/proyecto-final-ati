@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 import { DialogComponent } from '../../utils/dialog/dialog.component';
 import { DataService } from '../../../services/data.service';
 import { Subscription } from 'rxjs';
+import { MiscService } from 'src/app/services/misc.service';
 
 @Component({
   selector: 'app-paciente',
@@ -25,7 +26,8 @@ export class PacienteComponent implements OnInit, OnDestroy {
     private patientService: PatientService,
     public dialog: MatDialog,
     private userService: UserService,
-    private data: DataService
+    private data: DataService,
+    private miscService: MiscService
   ) {}
 
   subscription: Subscription = new Subscription();
@@ -37,6 +39,7 @@ export class PacienteComponent implements OnInit, OnDestroy {
     'documento',
     'medicoCabecera',
     'patologias',
+    'cuidados',
     'contactos',
     'edit',
     'delete',
@@ -67,7 +70,33 @@ export class PacienteComponent implements OnInit, OnDestroy {
       .subscribe(
         (response) => {
           if (response.status === 200) {
-            this.pacientes = response.body || [];
+            if (response.body !== null) {
+              let auxList: Paciente[] = [];
+              response.body.forEach((patient) => {
+                let auxPatient = patient;
+                auxPatient.mutualist =
+                  this.miscService.getHospitalsLocal().find((x) => x)?.name ||
+                  '';
+                auxPatient.emergencyService =
+                  this.miscService.getEmertencyServicesLocal().find((x) => x)
+                    ?.name || '';
+                auxPatient.partnerService =
+                  this.miscService.getPartnerServicesLocal().find((x) => x)
+                    ?.name || '';
+
+                let pathologies: string[] = [];
+                auxPatient.pathologies.forEach((p) => {
+                  pathologies.push(
+                    this.miscService
+                      .getPathologiesLocal()
+                      .filter((x) => x._id === p)[0]?.name || ''
+                  );
+                });
+                auxPatient.pathologies = pathologies;
+                auxList.push(auxPatient);
+              });
+              this.pacientes = auxList;
+            }
           }
         },
         (error) => {
@@ -81,11 +110,19 @@ export class PacienteComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CrearPacienteComponent, {
       height: '80%',
       width: '700px',
+      data: {
+        closeDialog: () => {
+          dialogRef.close();
+        },
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
     });
+  }
+  closePatientDialog() {
+    this.dialog.closeAll();
   }
 
   // Eliminar paciente

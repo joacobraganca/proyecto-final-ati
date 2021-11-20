@@ -2,61 +2,43 @@
   <div class="row">
     <h1>Tareas</h1>
 
-    <button
-      mat-fab
-      color="primary"
-      aria-label="Crear tarea"
-      (click)="createTask()"
-    >
+    <button mat-fab color="primary" aria-label="Crear tarea">
       <mat-icon>add</mat-icon>
     </button>
   </div>
 
-  <table mat-table [dataSource]="tareas" class="mat-elevation-z8">
-    <ng-container matColumnDef="nombre">
-      <th mat-header-cell *matHeaderCellDef>Nombre</th>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <!--- Note that these columns can be defined in any order.
+            The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Fecha</th>
+      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Tarea</th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="fechaDeAdmision">
-      <th mat-header-cell *matHeaderCellDef>Documento</th>
-      <td mat-cell *matCellDef="let element">{{ element.dateTime }}</td>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="weight">
+      <th mat-header-cell *matHeaderCellDef>Enfermero</th>
+      <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="estado">
-      <th mat-header-cell *matHeaderCellDef>Médico cabecera</th>
-      <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="usuarioAsignado">
-      <th mat-header-cell *matHeaderCellDef>Contactos</th>
-      //TODO
-      <td mat-cell *matCellDef="let element">
-        {{ element.assignedUser.name }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row">
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
         <button mat-icon-button>
           <mat-icon>edit</mat-icon>
         </button>
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element">
-        <button
-          #element._id
-          mat-icon-button
-          [attr.data-message-id]="element._id"
-          (click)="deleteTask(element._id)"
-        >
+        <button mat-icon-button>
           <mat-icon color="warn">delete</mat-icon>
         </button>
-      </td>
+      </mat-cell>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

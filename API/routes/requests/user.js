@@ -7,6 +7,7 @@ const { registerUserValidation, loginValidation } = require("../validation");
 const { cleanIdNumber } = require("ciuy");
 const axios = require("axios");
 const { validCi } = require("../utils");
+const verify = require("../verifyToken");
 
 router.post("/register", async (req, res) => {
   //Validacion de los datos
@@ -86,6 +87,17 @@ router.post("/login", async (req, res) => {
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRETA);
   res.header("Authorization", token);
   res.send(userSend);
+});
+
+//Get de nurses por healthHomeId
+router.get("/homeId", verify, async (req, res) => {
+  const user = await User.find({ assignedHealthHome: req.query._id });
+
+  if (!user.length)
+    return res
+      .status(404)
+      .send("No existen enfermeras para esa casa de salud.");
+  else return res.status(200).send(user.filter((nurse) => nurse.roleAdmin === false));
 });
 
 //! NOTIFICATION

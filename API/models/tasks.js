@@ -16,7 +16,7 @@ const tasksSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["pendiente", "en curso", "cerrado"],
+    enum: ["pendiente", "enCurso", "cerrado"],
     default: "pendiente",
   },
   assignedUser: {

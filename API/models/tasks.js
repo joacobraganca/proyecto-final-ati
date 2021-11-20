@@ -14,6 +14,13 @@ const tasksSchema = new mongoose.Schema({
   dateTime: {
     type: Date,
   },
+  priority:{
+    type: Boolean,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
   status: {
     type: String,
     enum: ["pendiente", "enCurso", "cerrado"],

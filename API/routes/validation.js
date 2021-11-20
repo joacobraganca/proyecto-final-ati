@@ -102,6 +102,10 @@ const contactsValidation = (data) => {
 const taskValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().required(),
+    dateTime: Joi.string(),
+    description: Joi.string(),
+    priority: Joi.boolean().required(),
+    status: Joi.string().valid('pendiente', 'enCurso', "cerrado"),
     assignedUser: Joi.string().required(),
     assignedHealthHome: Joi.string().required(),
   });

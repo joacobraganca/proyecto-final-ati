@@ -12,6 +12,10 @@ router.post("", verify, async (req, res) => {
 
   const task = new Task({
     name: req.body.name,
+    dateTime: req.body.dateTime,
+    description: req.body.description,
+    status: req.body.status,
+    priority: req.body.priority,
     assignedUser: req.body.assignedUser,
     assignedHealthHome: req.body.assignedHealthHome,
   });

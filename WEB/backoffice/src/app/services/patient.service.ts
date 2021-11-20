@@ -11,7 +11,7 @@ export class PatientService {
   token = localStorage.getItem('id_token') || '';
 
   // Obtener todos los pacientes por casa de salud
-  getPatientsByHome(healthHome: string): Observable<HttpResponse<Paciente[]>> {
+  getPatientsByHome(healthHome: any): Observable<HttpResponse<Paciente[]>> {
     const headers = {
       'Content-type': 'application/json',
       ['Authorization']: this.token,

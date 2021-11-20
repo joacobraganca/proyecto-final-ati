@@ -1,4 +1,4 @@
 export interface Misc {
-  id: string;
+  _id: string;
   name: string;
 }

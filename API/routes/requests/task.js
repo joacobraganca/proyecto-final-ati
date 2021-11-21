@@ -50,6 +50,7 @@ router.put("", verify, async (req, res) => {
       .status(404)
       .send("No se ha encontrado ninguna tarea");
   }
+});
 
 //Get de pacientes por healthHomeId
 router.get("/homeId", verify, async (req, res) => {

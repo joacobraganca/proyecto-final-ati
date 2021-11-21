@@ -33,14 +33,14 @@ export class SignupComponent implements OnInit {
       password: ['', Validators.required],
       repeatPassword: ['', Validators.required],
       document: ['', Validators.required],
-      healthHome: [Validators.required],
+      healthHome: [],
       isAdmin: [false],
     });
   }
 
   ngOnInit(): void {
     this.healthHomeService.getHealthHomes().subscribe((response) => {
-      this.healthHomes = response.healthHomes;
+      this.healthHomes = response;
     });
   }
 
@@ -54,12 +54,12 @@ export class SignupComponent implements OnInit {
       this.error('Las contraseñas no coinciden.');
     } else {
       this.userService
-        .signup(name, password, repeatPassword, document, healthHome, isAdmin)
+        .signup(name, password, document, healthHome._id, isAdmin)
         .subscribe(
           (response) => {
             this.userService.setUser(response.body);
             localStorage.setItem(
-              'id_token',
+              'access_token',
               response.headers.get('Authorization') || ''
             );
             this.redirect();

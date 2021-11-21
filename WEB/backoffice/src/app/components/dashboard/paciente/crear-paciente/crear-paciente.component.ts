@@ -184,7 +184,17 @@ export class CrearPacienteComponent implements OnInit {
 
     this.patientService.createPatient(patient).subscribe(
       (response) => {
-        this.parentData.closeDialog();
+        this.patientService
+          .getPatientsByHome(this.userService.getHealthHome())
+          .subscribe(
+            (response) => {
+              this.patientService.setPatients(response.body || []);
+              this.parentData.closeDialog();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
       },
       (error) => {
         console.log(error);

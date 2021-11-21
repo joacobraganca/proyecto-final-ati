@@ -39,7 +39,7 @@
 
       <mat-form-field class="input" appearance="fill">
         <mat-label>Mutualista:</mat-label>
-        <mat-select name="mutualist" formControlName="mutualist">
+        <mat-select required name="mutualist" formControlName="mutualist">
           <mat-option
             *ngFor="let mutualist of hospitalsList"
             [value]="mutualist"
@@ -61,7 +61,11 @@
 
       <mat-form-field class="input" appearance="fill">
         <mat-label>Servicio de emergencia:</mat-label>
-        <mat-select name="emergencyService" formControlName="emergencyService">
+        <mat-select
+          required
+          name="emergencyService"
+          formControlName="emergencyService"
+        >
           <mat-option
             *ngFor="let emergency of emergencyServicesList"
             [value]="emergency"
@@ -72,7 +76,7 @@
 
       <mat-form-field class="input" appearance="fill">
         <mat-label>Servicio de acompañante:</mat-label>
-        <mat-select name="accompanying" formControlName="accompanying">
+        <mat-select required name="accompanying" formControlName="accompanying">
           <mat-option
             *ngFor="let partner of partnerServicesList"
             [value]="partner"

@@ -1,1 +1,89 @@
-<p>crear-tarea works!</p>
+<div class="nav-1">
+  <mat-icon mat-dialog-close>cancel</mat-icon>
+</div>
+<form [formGroup]="taskFormGroup" (ngSubmit)="saveTask()">
+  <mat-form-field class="input" appearance="fill">
+    <mat-label>Nombre de la tarea</mat-label>
+    <input
+      matInput
+      formControlName="title"
+      placeholder="Ej.: Limpiar la cocina"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field class="input" appearance="fill">
+    <mat-label>Descripción:</mat-label>
+    <input
+      matInput
+      formControlName="description"
+      placeholder="Detalles sobre la tarea a realizar."
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      [ngxMatDatetimePicker]="picker"
+      placeholder="Choose a date"
+      formControlName="date"
+      [min]="minDate"
+      [disabled]="disabled"
+    />
+    <mat-datepicker-toggle matSuffix [for]="$any(picker)">
+    </mat-datepicker-toggle>
+    <ngx-mat-datetime-picker
+      #picker
+      [showSpinners]="showSpinners"
+      [showSeconds]="showSeconds"
+      [stepHour]="stepHour"
+      [stepMinute]="stepMinute"
+      [touchUi]="touchUi"
+    >
+    </ngx-mat-datetime-picker>
+  </mat-form-field>
+  <mat-form-field class="input" appearance="fill">
+    <mat-label>Estado:</mat-label>
+    <mat-select required name="statusTask" formControlName="statusTask">
+      <mat-option *ngFor="let status of enumKeys" [value]="status">
+        {{ statusList[status] }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="input" appearance="fill">
+    <mat-label>Asignar enfermero:</mat-label>
+    <mat-select name="nurseSel" formControlName="nurseSel">
+      <mat-option *ngFor="let nurse of nursesList" [value]="nurse">{{
+        nurse.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="input" appearance="fill">
+    <mat-label>Asignar paciente:</mat-label>
+    <mat-select name="patientSel" formControlName="patientSel">
+      <mat-option *ngFor="let patient of patientsList" [value]="patient">{{
+        patient.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="input">
+    <mat-checkbox
+      name="priority"
+      formControlName="priority"
+      class="example-margin"
+      >¿Es prioritaria?</mat-checkbox
+    >
+  </div>
+
+  <button
+    type="submit"
+    class="login-element-width button"
+    [disabled]="taskFormGroup.invalid"
+    mat-raised-button
+    color="primary"
+  >
+    Guardar tarea
+  </button>
+</form>

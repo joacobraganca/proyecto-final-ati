@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -39,7 +38,8 @@ export class LoginComponent implements OnInit {
         this.userService.setUser(response.body);
         if (this.userService.getRole() === true) {
           const token = response.headers.get('Authorization') || '';
-          localStorage.setItem('id_token', token);
+          // localStorage.setItem('access_token', token);
+          localStorage.setItem('access_token', token);
           this.redirect();
         } else {
           this.error('Su usuario no contiene los permisos necesarios');
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   redirect() {
-    this.loading = true;
+    // this.loading = true;
     this.router.navigate(['dashboard']);
   }
 }

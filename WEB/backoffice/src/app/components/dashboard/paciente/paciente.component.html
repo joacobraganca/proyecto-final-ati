@@ -5,7 +5,7 @@
     <button
       mat-fab
       color="primary"
-      aria-label="Crear tarea"
+      aria-label="Crear paciente"
       (click)="createPatient()"
     >
       <mat-icon>add</mat-icon>
@@ -63,7 +63,7 @@
           #element._id
           mat-icon-button
           [attr.data-message-id]="element._id"
-          (click)="deletePatient(element._id)"
+          (click)="deletePatient(element.document)"
         >
           <mat-icon color="warn">delete</mat-icon>
         </button>

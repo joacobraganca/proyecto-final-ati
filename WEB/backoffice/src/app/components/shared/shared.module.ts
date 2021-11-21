@@ -22,6 +22,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from '@angular-material-components/datetime-picker';
 
 @NgModule({
   declarations: [],
@@ -45,6 +51,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatCheckboxModule,
     MatDialogModule,
     MatStepperModule,
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
   ],
   exports: [
     CommonModule,
@@ -66,6 +76,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatCheckboxModule,
     MatDialogModule,
     MatStepperModule,
+    MatDatepickerModule,
+    NgxMatDatetimePickerModule,
+    NgxMatNativeDateModule,
+    NgxMatTimepickerModule,
   ],
 })
 export class SharedModule {}

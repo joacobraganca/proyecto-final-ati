@@ -64,45 +64,68 @@ export class PacienteComponent implements OnInit, OnDestroy {
   }
   // Obtener pacientes por id de casa de salud
   getPatients() {
-    this.pacientes = [];
-    this.patientService
-      .getPatientsByHome(this.userService.getHealthHome())
-      .subscribe(
-        (response) => {
-          if (response.status === 200) {
-            if (response.body !== null) {
-              let auxList: Paciente[] = [];
-              response.body.forEach((patient) => {
-                let auxPatient = patient;
-                auxPatient.mutualist =
-                  this.miscService.getHospitalsLocal().find((x) => x)?.name ||
-                  '';
-                auxPatient.emergencyService =
-                  this.miscService.getEmertencyServicesLocal().find((x) => x)
-                    ?.name || '';
-                auxPatient.partnerService =
-                  this.miscService.getPartnerServicesLocal().find((x) => x)
-                    ?.name || '';
+    let patients = this.patientService.getPatientsLocal();
+    let auxList: Paciente[] = [];
+    patients.forEach((patient) => {
+      let auxPatient = patient;
+      auxPatient.mutualist =
+        this.miscService.getHospitalsLocal().find((x) => x)?.name || '';
+      auxPatient.emergencyService =
+        this.miscService.getEmertencyServicesLocal().find((x) => x)?.name || '';
+      auxPatient.partnerService =
+        this.miscService.getPartnerServicesLocal().find((x) => x)?.name || '';
 
-                let pathologies: string[] = [];
-                auxPatient.pathologies.forEach((p) => {
-                  pathologies.push(
-                    this.miscService
-                      .getPathologiesLocal()
-                      .filter((x) => x._id === p)[0]?.name || ''
-                  );
-                });
-                auxPatient.pathologies = pathologies;
-                auxList.push(auxPatient);
-              });
-              this.pacientes = auxList;
-            }
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      let pathologies: string[] = [];
+      auxPatient.pathologies.forEach((p) => {
+        pathologies.push(
+          this.miscService.getPathologiesLocal().filter((x) => x._id === p)[0]
+            ?.name || ''
+        );
+      });
+      auxPatient.pathologies = pathologies;
+      auxList.push(auxPatient);
+    });
+    this.pacientes = auxList;
+
+    // this.pacientes = [];
+    // this.patientService
+    //   .getPatientsByHome(this.userService.getHealthHome())
+    //   .subscribe(
+    //     (response) => {
+    //       if (response.status === 200) {
+    //         if (response.body !== null) {
+    //           let auxList: Paciente[] = [];
+    //           response.body.forEach((patient) => {
+    //             let auxPatient = patient;
+    //             auxPatient.mutualist =
+    //               this.miscService.getHospitalsLocal().find((x) => x)?.name ||
+    //               '';
+    //             auxPatient.emergencyService =
+    //               this.miscService.getEmertencyServicesLocal().find((x) => x)
+    //                 ?.name || '';
+    //             auxPatient.partnerService =
+    //               this.miscService.getPartnerServicesLocal().find((x) => x)
+    //                 ?.name || '';
+
+    //             let pathologies: string[] = [];
+    //             auxPatient.pathologies.forEach((p) => {
+    //               pathologies.push(
+    //                 this.miscService
+    //                   .getPathologiesLocal()
+    //                   .filter((x) => x._id === p)[0]?.name || ''
+    //               );
+    //             });
+    //             auxPatient.pathologies = pathologies;
+    //             auxList.push(auxPatient);
+    //           });
+    //           this.pacientes = auxList;
+    //         }
+    //       }
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   // Crear paciente
@@ -131,13 +154,26 @@ export class PacienteComponent implements OnInit, OnDestroy {
       .deletePatientById(id)
       .subscribe((response: Response) => {
         if (response.status === 200) {
-          this.data.changeDialog(
-            'show',
-            'Éxito',
-            'Se elimino al paciente satisfactoriamente.'
-          );
-          const dialogRef = this.dialog.open(DialogComponent);
-          this.ngOnInit();
+          this.patientService
+            .getPatientsByHome(this.userService.getHealthHome())
+            .subscribe(
+              (response) => {
+                this.patientService.setPatients(response.body || []);
+              },
+              (error) => {
+                this.patientService.setPatients([]);
+                console.log(error);
+              }
+            )
+            .add(() => {
+              this.data.changeDialog(
+                'show',
+                'Éxito',
+                'Se elimino al paciente satisfactoriamente.'
+              );
+              const dialogRef = this.dialog.open(DialogComponent);
+              this.ngOnInit();
+            });
         }
       });
   }

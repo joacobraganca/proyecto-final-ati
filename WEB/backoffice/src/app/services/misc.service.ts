@@ -40,7 +40,7 @@ export class MiscService {
   }
 
   constructor(private http: HttpClient) {}
-  token = localStorage.getItem('id_token') || '';
+  token = localStorage.getItem('access_token') || '';
 
   getHospital(): Observable<HttpResponse<Misc[]>> {
     const headers = {

@@ -27,6 +27,7 @@ const tasksSchema = new mongoose.Schema({
     type: String,
     enum: ["pendiente", "enCurso", "cerrado"],
     default: "pendiente",
+    message: '{VALUE} no es un status permitido.'
   },
   assignedPatient: {
     type: mongoose.Schema.Types.ObjectId,

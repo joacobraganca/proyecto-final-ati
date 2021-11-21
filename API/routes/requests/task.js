@@ -64,11 +64,20 @@ router.put("", verify, async (req, res) => {
     }
   );
 });
+
 //Get de pacientes por healthHomeId
 router.get("/homeId", verify, async (req, res) => {
   const task = await Task.find({ assignedHealthHome: req.query._id });
   if (!task.length)
     return res.status(404).send("No existen tareas para esa casa de salud.");
+  else return res.status(200).send(task);
+});
+
+//Get de pacientes por usuario
+router.get("/user", verify, async (req, res) => {
+  const task = await Task.find({ assignedUser: req.query._id });
+  if (!task.length)
+    return res.status(404).send("No existen tareas para ese usuario.");
   else return res.status(200).send(task);
 });
 

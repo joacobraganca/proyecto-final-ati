@@ -40,6 +40,17 @@ router.delete("", verify, async (req, res) => {
   }
 });
 
+router.put("", verify, async (req, res) => {
+  if (!req.query._id) {
+    return res.status(400).send("El id es requerido.");
+  }
+
+  if (!(await Task.findById(req.query._id))) {
+    return res
+      .status(404)
+      .send("No se ha encontrado ninguna tarea");
+  }
+
 //Get de pacientes por healthHomeId
 router.get("/homeId", verify, async (req, res) => {
   const task = await Task.find({ assignedHealthHome: req.query._id });

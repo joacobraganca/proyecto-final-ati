@@ -50,8 +50,20 @@ router.put("", verify, async (req, res) => {
       .status(404)
       .send("No se ha encontrado ninguna tarea");
   }
-});
 
+  await Task.findByIdAndUpdate(
+    { _id: req.query._id },
+    { $set: req.body },
+    { new: true },
+    (error, results) => {
+      if (error) {
+        return res.status(400).send(error);
+      } else {
+        return res.status(200).send(results);
+      }
+    }
+  );
+});
 //Get de pacientes por healthHomeId
 router.get("/homeId", verify, async (req, res) => {
   const task = await Task.find({ assignedHealthHome: req.query._id });

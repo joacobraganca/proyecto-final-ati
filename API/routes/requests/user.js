@@ -79,6 +79,7 @@ router.post("/login", async (req, res) => {
 
   //Creo y asigno el token
   const userSend = new User({
+    _id: user._id,
     name: user.name,
     roleAdmin: user.roleAdmin,
     assignedHealthHome: user.assignedHealthHome,

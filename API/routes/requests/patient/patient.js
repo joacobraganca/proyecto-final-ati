@@ -82,6 +82,14 @@ router.put("", verify, async (req, res) => {
   );
 });
 
+//Get de pacientes por id
+router.get("", verify, async (req, res) => {
+  const patient = await Patient.find({ _id: req.query._id });
+  if (!patient.length)
+    return res.status(404).send("No existe ese paciente.");
+  else return res.status(200).send(patient);
+});
+
 //Get de pacientes por healthHomeId
 router.get("/homeId", verify, async (req, res) => {
   const patient = await Patient.find({ assignedHealthHome: req.query._id });

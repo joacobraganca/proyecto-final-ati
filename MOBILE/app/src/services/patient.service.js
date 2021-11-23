@@ -1,7 +1,7 @@
-import {PATIENTS, PATIENT_BY_ID, PATIENT_BY_NAME} from '../utils/urls';
+import {PATIENTS_BY_HOME_ID, PATIENT_BY_ID, PATIENT_BY_NAME} from '../utils/urls';
 
 const getPatients = id => {
-  fetch(PATIENTS + '?_id=' + id, {
+  fetch(PATIENTS_BY_HOME_ID + '?_id=' + id, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -18,7 +18,7 @@ const getPatients = id => {
 };
 
 const getPatientById = id => {
-  fetch(PATIENT_BY_ID + '?id=' + id, {
+  fetch(PATIENT_BY_ID + '?_id=' + id, {
     method: 'GET',
     headers: {
       Accept: 'application/json',

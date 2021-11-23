@@ -1,20 +1,10 @@
 import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {CheckBox} from 'react-native-elements';
 
 const CustomListItem = ({value}) => {
-  const [check, setCheck] = useState(false);
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const openFromParent = () => {
-    setIsOpen(true);
-  };
-  const handleCloseModal = (event, data) => {
-    console.log(event, data);
-    setIsOpen(false);
-  };
-  const handleAfterOpen = (event, data) => {
-    console.log(event, data);
-  };
+
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -39,7 +29,9 @@ const CustomListItem = ({value}) => {
         <View style={styles.datetime}>
           <Text>{value.dateTime}</Text>
         </View>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+        navigate("EnableNotifcation");
+      }}>
     </View>
   );
 };

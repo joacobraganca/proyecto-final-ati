@@ -11,7 +11,7 @@ initFirebase();
 
 function sendPushToOneUser(notification) {
     const message = {
-        token: notification.tokenId,
+        token: notification.token,
         data: {
             title: notification.title,
             message: notification.message,

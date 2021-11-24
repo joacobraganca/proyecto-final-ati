@@ -5,6 +5,10 @@ const NOTIFICATION = baseUrl + '/user';
 
 const TASKS = baseUrl + '/task/homeId';
 const PATIENTS_BY_HOME_ID = baseUrl + '/patient/homeId';
+const TASKS_BY_NURSE = baseUrl + '/task/user';
+const UPDATE_TASK = baseUrl + '/task';
+
+const PATIENTS = baseUrl + '/patient/homeId';
 const PATIENT_BY_ID = baseUrl + '/patient/id';
 const PATIENT_BY_NAME = baseUrl + '/patient/byname';
 
@@ -18,6 +22,9 @@ export {
   NOTIFICATION,
   TASKS,
   PATIENTS_BY_HOME_ID,
+  TASKS_BY_NURSE,
+  UPDATE_TASK,
+  PATIENTS,
   PATIENT_BY_ID,
   PATIENT_BY_NAME,
   HOSPITALS,

@@ -84,8 +84,7 @@ router.get("/user", verify, async (req, res) => {
 const sendNotification = async (nurse_id) => {
   if (nurse_id) {
     const nurse = await User.findById(nurse_id);
-    const token = nurse.tokenNotification;
-    if (token != null) {
+    if (nurse.tokenNotification !== null) {
       const notification = {
         token: nurse.tokenNotification,
         data: {

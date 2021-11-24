@@ -4,7 +4,7 @@ const Task = mongoose.model("Task", require("../../models/tasks"));
 const { taskValidation } = require("../validation");
 const verify = require("../verifyToken");
 const { sendPushToOneUser } = require("./notifications");
-const User = mongoose.model("User", require("../../models/users"));
+
 //Creacion de tarea
 router.post("", async (req, res) => {
   //Validacion de los datos
@@ -83,9 +83,8 @@ router.get("/user", verify, async (req, res) => {
 
 const sendNotification = async (nurse_id) => {
   if (nurse_id) {
-    const nurse = await User.findById(nurse_id);
-    const token = nurse.tokenNotification;
-    if (token != null) {
+    const nurse = await User.find({ _id: nurse_id });
+    if (nurse.tokenNotification) {
       const notification = {
         token: nurse.tokenNotification,
         data: {
@@ -95,7 +94,6 @@ const sendNotification = async (nurse_id) => {
       };
       sendPushToOneUser(notification);
     }
-    console.log(nurse.tokenNotification);
   }
 };
 

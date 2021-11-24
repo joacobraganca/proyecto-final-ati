@@ -83,9 +83,8 @@ router.get("/user", verify, async (req, res) => {
 
 const sendNotification = async (nurse_id) => {
   if (nurse_id) {
-    const nurse = await User.findById(nurse_id);
-    const token = nurse.tokenNotification;
-    if (token != null) {
+    const nurse = await User.find({ _id: nurse_id });
+    if (nurse.tokenNotification) {
       const notification = {
         token: nurse.tokenNotification,
         data: {
@@ -95,7 +94,6 @@ const sendNotification = async (nurse_id) => {
       };
       sendPushToOneUser(notification);
     }
-    console.log(nurse.tokenNotification);
   }
 };
 

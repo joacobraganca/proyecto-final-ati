@@ -16,10 +16,10 @@ const login = async (user, password, setError) => {
       });
 
       if (response.status === 200) {
-        AsyncStorage.setItem('@auth-token', response.headers.map.authorization);
+        AsyncStorage.setItem('@auth_token', response.headers.map.authorization);
         const json = await response.json();
-        AsyncStorage.setItem('@user-id', json._id);
-        AsyncStorage.setItem('@healthhome-id', json.assignedHealthHome);
+        AsyncStorage.setItem('@user_id', json._id);
+        AsyncStorage.setItem('@healthhome_id', json.assignedHealthHome);
         setError(false);
         return true;
       } else {

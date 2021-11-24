@@ -8,13 +8,6 @@ const CustomListItem = ({value}) => {
   const openFromParent = () => {
     setIsOpen(true);
   };
-  const handleCloseModal = (event, data) => {
-    console.log(event, data);
-    setIsOpen(false);
-  };
-  const handleAfterOpen = (event, data) => {
-    console.log(event, data);
-  };
 
   return (
     <View style={styles.container}>

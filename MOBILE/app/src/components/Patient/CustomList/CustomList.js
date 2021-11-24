@@ -1,85 +1,13 @@
 import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import CustomListItem from '../CustomListItem/CustomListItem';
+import {FlatList, StyleSheet, View} from 'react-native';
+import CustomListItem from '../CustomListItemPacienteeee/CustomListItemPELUSACHUPALAAAA';
 
-const CustomList = (patients) => {
+const CustomList = ({value}) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={[
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-          {
-            status: 'cerrado',
-            description: 'Descripcion',
-            dateTime: '12/12/2000',
-            name: 'Cambiar suero',
-            priority: true,
-            assignedPatient: 'Nombre Paciente',
-          },
-        ]}
+        data={value}
+        keyExtractor={item => item._id}
         renderItem={({item}) => <CustomListItem value={item} />}
       />
     </View>
@@ -90,7 +18,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
   },
-  item: {
+  data: {
     padding: 10,
     fontSize: 18,
     height: 44,

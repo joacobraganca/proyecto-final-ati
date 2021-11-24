@@ -1,35 +1,48 @@
-import React, {useEffect, useReducer, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet} from 'react-native';
 import CustomList from '../../components/Patient/CustomList/CustomList';
-import {getPatients} from '../../services/patient.service'
+import {getPatients} from '../../services/patient.service';
 
 const PatientsScreen = () => {
-  const [patients, setPatients] = useState('');
+  const [patients, setPatients] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() =>{
-    const patientsList = getPatients(AsyncStorage.getItem('@healthhome_id'))
-    setPatients(patientsList);
+  useEffect(() => {
+    getPatientsFunction();
+  }, []);
+
+  useEffect(() => {}, [isLoaded]);
+
+  const getPatientsFunction = async () => {
+    const tmpPatients = await getPatients();
+    setPatients(tmpPatients);
+    setIsLoaded(true);
+  };
+
+  const render = () => {
+    if (!isLoaded) {
+      return <View></View>;
+    } else {
+      return (
+        <View style={styles.root}>
+          <CustomList value={patients} />
+        </View>
+      );
+    }
+  };
+
+  const styles = StyleSheet.create({
+    root: {
+      alignItems: 'center',
+      padding: 20,
+    },
+    errorMsg: {
+      justifyContent: 'center',
+      color: 'red',
+      fontSize: 14,
+    },
   });
 
-  //const navigation = useNavigation();
-
-  return (
-    <View style={styles.root}>
-      <CustomList props={patients}/>
-    </View>
-  );
+  return render();
 };
-
-const styles = StyleSheet.create({
-  root: {
-    alignItems: 'center',
-    padding: 20,
-  },
-  errorMsg: {
-    justifyContent: 'center',
-    color: 'red',
-    fontSize: 14,
-  },
-});
-
 export default PatientsScreen;

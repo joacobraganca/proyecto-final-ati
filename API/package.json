@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/joacobraganca/proyecto-ati#readme",
   "dependencies": {
+    "@firebase/messaging": "^0.9.4",
     "@hapi/joi": "^17.1.1",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
@@ -26,6 +27,7 @@
     "cryptr": "^6.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "firebase-admin": "^10.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.13",
     "mongoose-advanced-encryption": "^0.10.2",

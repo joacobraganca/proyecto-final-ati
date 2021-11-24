@@ -1,6 +1,7 @@
 const baseUrl = 'https://healthhomeapi.herokuapp.com/api';
 
 const LOGIN = baseUrl + '/user/login';
+const NOTIFICATION = baseUrl + '/user';
 
 const TASKS = baseUrl + '/task/homeId';
 const PATIENTS_BY_HOME_ID = baseUrl + '/patient/homeId';
@@ -14,6 +15,7 @@ const PART_SERVICE = baseUrl + '/partnerService';
 
 export {
   LOGIN,
+  NOTIFICATION,
   TASKS,
   PATIENTS_BY_HOME_ID,
   PATIENT_BY_ID,

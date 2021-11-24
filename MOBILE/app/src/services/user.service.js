@@ -1,5 +1,7 @@
-import {LOGIN} from '../utils/urls';
+import {LOGIN, NOTIFICATION} from '../utils/urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
+import {Alert} from 'react-native';
 
 const login = async (user, password, setError) => {
   try {
@@ -20,6 +22,10 @@ const login = async (user, password, setError) => {
         const json = await response.json();
         AsyncStorage.setItem('@user_id', json._id);
         AsyncStorage.setItem('@healthhome_id', json.assignedHealthHome);
+        const tokenNotification = await getToken();
+        if (tokenNotification && tokenNotification != json.tokenNotification) {
+          await putTokenNotification(tokenNotification, json._id);
+        }
         setError(false);
         return true;
       } else {
@@ -31,6 +37,31 @@ const login = async (user, password, setError) => {
     console.log(error);
     return false;
   }
+};
+
+const putTokenNotification = async (tokenNotification, _id) => {
+  const token = await AsyncStorage.getItem('@auth_token');
+  try {
+    await fetch(NOTIFICATION, {
+      method: 'PUT',
+      body: JSON.stringify({
+        _id: _id,
+        tokenNotification: tokenNotification,
+      }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: token,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+const getToken = async () => {
+  return await messaging().getToken();
 };
 
 // const login = (user, password, setError) => {

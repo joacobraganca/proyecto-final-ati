@@ -14,7 +14,7 @@ function sendPushToOneUser(notification) {
         token: notification.token,
         notification: {
             title: notification.data.title,
-            message: notification.data.message,
+            body: notification.data.message,
         },
     };
     sendMessage(message);

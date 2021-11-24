@@ -1,22 +1,17 @@
-import {LIST_PRIORITY_TASKS, LIST_OTHER_TASKS} from '../actions/types';
+import {LIST_TASKS} from '../actions/types';
 
 const initialState = {
-  priorityTaskList: [],
   otherTaskList: [],
+  priorityTaskList: [],
 };
 
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LIST_PRIORITY_TASKS:
+    case LIST_TASKS:
       return {
         ...state,
-        priorityTaskList: action.data,
-      };
-      return;
-    case LIST_OTHER_TASKS:
-      return {
-        ...state,
-        otherTaskList: action.data,
+        otherTaskList: action.data.otherTasks,
+        priorityTaskList: action.data.priorityTasks,
       };
       return;
 

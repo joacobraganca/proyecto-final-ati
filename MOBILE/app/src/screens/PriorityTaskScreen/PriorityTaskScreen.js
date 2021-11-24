@@ -1,13 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
-import CustomImput from '../../components/CustomImput';
+import {View} from 'react-native';
 import CustomList from '../../components/CustomList';
-import {connect, useSelector} from 'react-redux';
+import {connect} from 'react-redux';
 
-const PriorityTaskScreen = ({tasks}) => {
+const PriorityTaskScreen = ({tasks, patients}) => {
   return (
     <View>
-      <CustomList value={tasks} />
+      <CustomList tasks={tasks} patients={patients} />
     </View>
   );
 };
@@ -15,8 +14,8 @@ const PriorityTaskScreen = ({tasks}) => {
 const mapStateToProps = state => {
   return {
     tasks: state.taskReducer.priorityTaskList,
+    patients: state.patientReducer.patients,
   };
 };
 
 export default connect(mapStateToProps)(PriorityTaskScreen);
-// export default PriorityTaskScreen;

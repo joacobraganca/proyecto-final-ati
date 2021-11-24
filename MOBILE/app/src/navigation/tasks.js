@@ -10,32 +10,16 @@ const Tab = createMaterialTopTabNavigator();
 const Tasks = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Prioritarias"
+      initialRouteName="Otras"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
         tabBarActiveTintColor: '#9DD1DB',
       }}>
-      <Tab.Screen
-        name="Prioritarias"
-        component={PriorityTaskScreen}
-        options={{
-          tabBarLabel: 'Prioritarias',
-        }}
-      />
-      <Tab.Screen
-        name="Otras"
-        component={OtherTaskScreen}
-        options={{
-          tabBarLabel: 'Otras',
-        }}
-      />
+      <Tab.Screen name="Prioritarias" component={PriorityTaskScreen} />
+      <Tab.Screen name="Otras" component={OtherTaskScreen} />
     </Tab.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  bar: {},
-  tab: {alignItems: 'center', justifyContent: 'center', top: 10},
-});
 export default Tasks;

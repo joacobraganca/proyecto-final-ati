@@ -1,11 +1,6 @@
-import {LIST_PRIORITY_TASKS, LIST_OTHER_TASKS} from './types';
+import {LIST_TASKS} from './types';
 
-export const addPriorityTask = tasks => ({
-  type: LIST_PRIORITY_TASKS,
-  data: tasks,
-});
-
-export const addOtherTask = tasks => ({
-  type: LIST_OTHER_TASKS,
+export const addTasks = tasks => ({
+  type: LIST_TASKS,
   data: tasks,
 });

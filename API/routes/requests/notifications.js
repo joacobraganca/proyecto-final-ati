@@ -13,8 +13,8 @@ function sendPushToOneUser(notification) {
     const message = {
         token: notification.token,
         data: {
-            title: notification.title,
-            message: notification.message,
+            title: notification.data.title,
+            message: notification.data.message,
         },
     };
     sendMessage(message);

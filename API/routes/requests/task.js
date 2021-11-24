@@ -6,7 +6,7 @@ const verify = require('../verifyToken');
 const { sendPushToOneUser } = require('./notifications');
 const User = mongoose.model('User', require('../../models/users'));
 //Creacion de tarea
-router.post('', token async (req, res) => {
+router.post('', async (req, res) => {
     //Validacion de los datos
     const { err } = taskValidation(req.body);
     if (err) return res.status(400).send(err.details[0].message);

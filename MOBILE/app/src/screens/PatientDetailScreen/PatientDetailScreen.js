@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import CustomList from '../../components/Patient/CustomList/CustomList';
-import {getPatientsByHome} from '../../services/patient.service';
+import React from 'react';
+import Patients from '../../navigation/patient';
 
-const PatientDetailScreen = ({route, navigation}) => {
-  const x = route.params;
+import {NavigationContainer} from '@react-navigation/native';
+const PatientDetailScreen = ({route}) => {
   return (
-    <View>
-      <Text>{x}</Text>
-    </View>
+    <NavigationContainer independent={true}>
+      <Patients id={route.params} />
+    </NavigationContainer>
   );
 };
 

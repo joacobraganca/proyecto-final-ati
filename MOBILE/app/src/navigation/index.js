@@ -22,7 +22,11 @@ const Navigation = () => {
           name="Home"
           component={HomeScreen}
         />
-        <Stack.Screen name="PatientDetail" component={PatientDetailScreen} />
+        <Stack.Screen
+          options={{title: 'Perfil'}}
+          name="PatientDetail"
+          component={PatientDetailScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

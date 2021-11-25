@@ -2,11 +2,11 @@ import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
 import CustomListItem from '../CustomListItem/CustomListItem';
 
-const CustomList = ({value}) => {
+const CustomList = ({patients}) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={value}
+        data={patients}
         keyExtractor={item => item._id}
         renderItem={({item}) => <CustomListItem value={item} />}
       />

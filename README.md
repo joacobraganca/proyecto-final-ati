@@ -20,10 +20,10 @@ _Para correr esta aplicación se debera de descargar el archivo APK e instalarlo
 ### Datos de prueba
 
 _Usuarios cargados en la aplicación:_
-|     Usuario     |     Contraseña    |    Administrador   |
-|-----------------|-------------------|--------------------|
-|     8781148     |     ort12345      |          SI        |
-|     8460229     |     ort12345      |          NO        |
+|     Usuario      |     Contraseña     |    Administrador  |
+|------------------|--------------------|-------------------|
+|     36322862     |     ort12345       |         SI        |
+|     76564595     |     ort12345       |         NO        |
 
 ## Autores
 

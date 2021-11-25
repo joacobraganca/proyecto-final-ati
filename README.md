@@ -12,7 +12,7 @@ _Para correr esta aplicación se debera de descargar el archivo APK e instalarlo
 
 ###Documentación de API: https://documenter.getpostman.com/view/2243128/UVC8DS9t
 
-###Backoffice:
+###Backoffice: https://github.com/joacobraganca/proyecto-final-ati-backoffice
 
 ###APK: https://drive.google.com/file/d/1_fusc9KqYAC8euFZ9xV-uQuxPCB5cVus/view?usp=sharing
 

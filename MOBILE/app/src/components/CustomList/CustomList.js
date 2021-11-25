@@ -26,12 +26,8 @@ function getName(p, id) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-  },
-  item: {
     padding: 10,
-    fontSize: 18,
-    height: 44,
+    backgroundColor: '#EDF9FC',
   },
 });
 

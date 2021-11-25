@@ -56,6 +56,9 @@ const HomeScreen = ({navigation}) => {
     const priorityTasks = [];
     const otherTasks = [];
     const tasks = await getTasks();
+    tasks.sort(function (a, b) {
+      return new Date(a.dateTime) - new Date(b.dateTime);
+    });
     tasks.forEach(task => {
       if (task.priority) {
         priorityTasks.push(task);

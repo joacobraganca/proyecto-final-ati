@@ -11,7 +11,6 @@ const Tabs = () => {
   return (
     <Tab.Navigator
       initialRouteName="Tasks"
-      style={styles.bar}
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -21,9 +20,11 @@ const Tabs = () => {
         name="Tasks"
         component={TasksScreen}
         options={{
-          tabBarLabel: 'Tareas',
+          tabBarLabel: ({color, size}) => (
+            <Text style={{color: color, fontSize: 12}}>Tareas</Text>
+          ),
           tabBarIcon: ({color, size}) => (
-            <Icon name="tasks" type="font-awesome-5" />
+            <Icon name="tasks" color={color} type="font-awesome-5" />
           ),
         }}
       />
@@ -31,9 +32,11 @@ const Tabs = () => {
         name="Patients"
         component={PatientsScreen}
         options={{
-          tabBarLabel: 'Pacientes',
+          tabBarLabel: ({color, size}) => (
+            <Text style={{color: color, fontSize: 12}}>Pacientes</Text>
+          ),
           tabBarIcon: ({color, size}) => (
-            <Icon name="user-friends" type="font-awesome-5" />
+            <Icon name="user-friends" color={color} type="font-awesome-5" />
           ),
         }}
       />
@@ -46,6 +49,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
   },
-  tab: {alignItems: 'center', justifyContent: 'center', top: 10},
+  // tab: {alignItems: 'center', justifyContent: 'center', top: 10},
 });
 export default Tabs;

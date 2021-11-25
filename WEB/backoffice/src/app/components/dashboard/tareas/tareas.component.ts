@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { MiscService } from 'src/app/services/misc.service';
 import { PatientService } from 'src/app/services/patient.service';
 import { Status } from 'src/app/interfaces/enum/status';
-
 @Component({
   selector: 'app-tareas',
   templateUrl: './tareas.component.html',
@@ -72,13 +71,16 @@ export class TareasComponent implements OnInit, OnDestroy {
 
             let auxList: Task[] = [];
             response.body.forEach((task) => {
-              //  let auxTask = task;
               task.assignedUser =
-                this.userService.getNursesLocal().find((x) => x)?.name || '';
+                this.userService
+                  .getNursesLocal()
+                  .find((x) => x._id === task.assignedUser)?.name || '';
               task.assignedPatient =
-                this.patientService.getPatientsLocal().find((x) => x)?.name ||
-                '';
+                this.patientService
+                  .getPatientsLocal()
+                  .find((x) => x._id === task.assignedPatient)?.name || '';
               task.dateTime = this.formatDate(task.dateTime);
+
               auxList.push(task);
             });
             this.tareas = auxList;
@@ -96,10 +98,15 @@ export class TareasComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CrearTareaComponent, {
       height: '80%',
       width: '700px',
+      data: {
+        closeDialog: () => {
+          dialogRef.close();
+        },
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      this.ngOnInit();
     });
   }
 

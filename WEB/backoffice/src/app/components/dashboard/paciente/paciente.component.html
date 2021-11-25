@@ -47,15 +47,6 @@
       <td mat-cell *matCellDef="let element">{{ element.contacts.length }}</td>
     </ng-container>
 
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row">
-        <button mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">

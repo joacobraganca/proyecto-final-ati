@@ -41,7 +41,6 @@ export class PacienteComponent implements OnInit, OnDestroy {
     'patologias',
     'cuidados',
     'contactos',
-    'edit',
     'delete',
   ];
   pacientes: Paciente[] = [];
@@ -86,46 +85,6 @@ export class PacienteComponent implements OnInit, OnDestroy {
       auxList.push(auxPatient);
     });
     this.pacientes = auxList;
-
-    // this.pacientes = [];
-    // this.patientService
-    //   .getPatientsByHome(this.userService.getHealthHome())
-    //   .subscribe(
-    //     (response) => {
-    //       if (response.status === 200) {
-    //         if (response.body !== null) {
-    //           let auxList: Paciente[] = [];
-    //           response.body.forEach((patient) => {
-    //             let auxPatient = patient;
-    //             auxPatient.mutualist =
-    //               this.miscService.getHospitalsLocal().find((x) => x)?.name ||
-    //               '';
-    //             auxPatient.emergencyService =
-    //               this.miscService.getEmertencyServicesLocal().find((x) => x)
-    //                 ?.name || '';
-    //             auxPatient.partnerService =
-    //               this.miscService.getPartnerServicesLocal().find((x) => x)
-    //                 ?.name || '';
-
-    //             let pathologies: string[] = [];
-    //             auxPatient.pathologies.forEach((p) => {
-    //               pathologies.push(
-    //                 this.miscService
-    //                   .getPathologiesLocal()
-    //                   .filter((x) => x._id === p)[0]?.name || ''
-    //               );
-    //             });
-    //             auxPatient.pathologies = pathologies;
-    //             auxList.push(auxPatient);
-    //           });
-    //           this.pacientes = auxList;
-    //         }
-    //       }
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
   }
 
   // Crear paciente

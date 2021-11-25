@@ -23,7 +23,7 @@ import {
 } from '../../utils/urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   const saveHospitals = h => dispatch(addHospitals(h));

@@ -29,12 +29,10 @@ const login = async (user, password, setError) => {
         setError(false);
         return true;
       } else {
-        console.log(response);
         return false;
       }
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };
@@ -55,7 +53,6 @@ const putTokenNotification = async (tokenNotification, _id) => {
       },
     });
   } catch (error) {
-    console.log(error);
     return [];
   }
 };

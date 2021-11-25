@@ -7,7 +7,6 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
-import {CheckBox} from 'react-native-elements';
 import RNPickerSelect from 'react-native-picker-select';
 import {useDispatch} from 'react-redux';
 import {updateTaskStatus} from '../../services/task.service';
@@ -17,8 +16,6 @@ import {Icon} from 'react-native-elements';
 
 const CustomListItem = ({value, name}) => {
   const dispatch = useDispatch();
-
-  const [check, setCheck] = useState(false);
   const [selectOptions, setSelectOptions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [enableButton, setEnableButton] = useState(true);

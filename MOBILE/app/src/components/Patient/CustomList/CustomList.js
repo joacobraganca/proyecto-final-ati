@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import CustomListItem from '../CustomListItemPacienteeee/CustomListItemPELUSACHUPALAAAA';
+import CustomListItem from '../CustomListItem/CustomListItem';
 
 const CustomList = ({value}) => {
   return (

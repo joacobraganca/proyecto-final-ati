@@ -10,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 const Tasks = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Otras"
+      initialRouteName="Prioritarias"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,

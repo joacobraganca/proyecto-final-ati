@@ -19,11 +19,9 @@ const getTasks = async () => {
       const json = await response.json();
       return json;
     } else {
-      console.log(response);
       return [];
     }
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
@@ -47,12 +45,10 @@ const updateTaskStatus = async (id, status) => {
       if (response.status === 200) {
         return true;
       } else {
-        console.log(response);
         return false;
       }
     }
   } catch (error) {
-    console.log(error);
     return false;
   }
 };

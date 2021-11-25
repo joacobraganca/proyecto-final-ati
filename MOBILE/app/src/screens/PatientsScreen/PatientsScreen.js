@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import CustomList from '../../components/Patient/CustomList/CustomList';
-import {getPatients} from '../../services/patient.service';
+import {getPatientsByHome} from '../../services/patient.service';
 
 const PatientsScreen = () => {
   const [patients, setPatients] = useState([]);
@@ -14,7 +14,7 @@ const PatientsScreen = () => {
   useEffect(() => {}, [isLoaded]);
 
   const getPatientsFunction = async () => {
-    const tmpPatients = await getPatients();
+    const tmpPatients = await getPatientsByHome();
     setPatients(tmpPatients);
     setIsLoaded(true);
   };

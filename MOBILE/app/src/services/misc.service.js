@@ -18,11 +18,9 @@ const getMisc = async URL => {
       const json = await response.json();
       return json;
     } else {
-      console.log(response);
       return [];
     }
   } catch (error) {
-    console.log(error);
     return [];
   }
 };

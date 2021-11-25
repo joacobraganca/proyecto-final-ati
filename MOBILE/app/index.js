@@ -8,6 +8,7 @@ import {name as appName} from './app.json';
 import messaging from '@react-native-firebase/messaging';
 import {Provider} from 'react-redux';
 import configureStore from './src/store';
+import 'react-native-gesture-handler';
 
 // Register background handler
 messaging().setBackgroundMessageHandler(async remoteMessage => {

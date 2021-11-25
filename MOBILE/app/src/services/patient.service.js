@@ -21,11 +21,9 @@ const getPatientsByHome = async () => {
       const json = await response.json();
       return json;
     } else {
-      console.log(response);
       return [];
     }
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
@@ -47,11 +45,9 @@ const getPatientById = async id => {
       const json = await response.json();
       return json;
     } else {
-      console.log(response);
       return [];
     }
   } catch (error) {
-    console.log(error);
     return [];
   }
 };
@@ -73,11 +69,9 @@ const getPatientByName = async name => {
       const json = await response.json();
       return json;
     } else {
-      console.log(response);
       return [];
     }
   } catch (error) {
-    console.log(error);
     return [];
   }
 };

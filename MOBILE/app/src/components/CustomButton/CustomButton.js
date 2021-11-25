@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
-const CustomButton = ({onPress, text}) => {
+const CustomButton = ({onPress, text, type}) => {
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <Pressable
+      onPress={onPress}
+      style={[styles.container, type ? styles.blue : styles.red]}>
       <Text style={styles.text}>{text}</Text>
     </Pressable>
   );
@@ -11,13 +13,14 @@ const CustomButton = ({onPress, text}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3B71F3',
-    width: '100%',
+    width: '90%',
     padding: 15,
-    marginVertical: 5,
+    marginVertical: 25,
     alignItems: 'center',
     borderRadius: 5,
   },
+  blue: {backgroundColor: '#3B71F3'},
+  red: {backgroundColor: 'red'},
   text: {
     fontWeight: 'bold',
     color: 'white',

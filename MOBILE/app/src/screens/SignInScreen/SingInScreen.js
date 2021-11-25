@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import CustomImput from '../../components/CustomImput';
 import CustomButton from '../../components/CustomButton';
 import {useNavigation} from '@react-navigation/native';
@@ -23,8 +23,15 @@ const SignInScreen = () => {
   };
 
   return (
-    <View style={styles.root}>
-      <Text>Sign In</Text>
+    <View style={styles.container}>
+      <View style={styles.info}>
+        <Image
+          style={styles.logo}
+          source={require('../../../assets/images/logo.png')}
+        />
+        <Text style={styles.title}>Gestor de casas de salud</Text>
+      </View>
+
       <CustomImput
         placeholder="Documento"
         value={user}
@@ -43,20 +50,38 @@ const SignInScreen = () => {
         </Text>
       ) : null}
 
-      <CustomButton text="Iniciar sesión" onPress={onSignInPressed} />
+      <CustomButton
+        text="Iniciar sesión"
+        onPress={onSignInPressed}
+        type={true}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  root: {
+  container: {
+    padding: 30,
+    backgroundColor: '#EDF9FC',
+    height: '100%',
     alignItems: 'center',
-    padding: 20,
+    justifyContent: 'center',
   },
+  info: {marginVertical: 25, alignItems: 'center'},
+  logo: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+  },
+  title: {
+    fontSize: 26,
+  },
+
   errorMsg: {
     justifyContent: 'center',
     color: 'red',
     fontSize: 14,
   },
 });
+
 export default SignInScreen;

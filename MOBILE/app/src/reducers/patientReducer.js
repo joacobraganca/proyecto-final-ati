@@ -1,4 +1,4 @@
-import {LIST_PATIENTS} from '../actions/types';
+import {LIST_PATIENTS, CLEAR_PATIENTS} from '../actions/types';
 
 const initialState = {
   patients: [],
@@ -11,8 +11,11 @@ const patientReducer = (state = initialState, action) => {
         ...state,
         patients: action.data,
       };
-      return;
-
+    case CLEAR_PATIENTS:
+      return {
+        ...state,
+        patients: [],
+      };
     default:
       return state;
   }

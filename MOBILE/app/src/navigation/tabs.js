@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Text} from 'react-native';
 import TasksScreen from '../screens/TasksScreen';
 import PatientsScreen from '../screens/PatientsScreen';
+import MainScreen from '../screens/MainScreen';
 import {Icon} from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
@@ -10,7 +11,7 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Tasks"
+      initialRouteName="Main"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
@@ -25,6 +26,18 @@ const Tabs = () => {
           ),
           tabBarIcon: ({color, size}) => (
             <Icon name="tasks" color={color} type="font-awesome-5" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Main"
+        component={MainScreen}
+        options={{
+          tabBarLabel: ({color, size}) => (
+            <Text style={{color: color, fontSize: 12}}>Inicio</Text>
+          ),
+          tabBarIcon: ({color, size}) => (
+            <Icon name="home" color={color} type="font-awesome-5" />
           ),
         }}
       />

@@ -3,6 +3,10 @@ import {
   LIST_PATHOLOGIES,
   LIST_EMERGENCY_SERVICES,
   LIST_PARTNER_SERVICE,
+  CLEAR_EMERGENCY_SERVICES,
+  CLEAR_HOSPITALS,
+  CLEAR_PATHOLOGIES,
+  CLEAR_PARTNER_SERVICE,
 } from '../actions/types';
 
 const initialState = {
@@ -19,25 +23,42 @@ const miscReducer = (state = initialState, action) => {
         ...state,
         hospitals: action.data,
       };
-      return;
     case LIST_PATHOLOGIES:
       return {
         ...state,
         pathologies: action.data,
       };
-      return;
     case LIST_EMERGENCY_SERVICES:
       return {
         ...state,
         emergencyServices: action.data,
       };
-      return;
     case LIST_PARTNER_SERVICE:
       return {
         ...state,
         partnerServices: action.data,
       };
-      return;
+
+    case CLEAR_PARTNER_SERVICE:
+      return {
+        ...state,
+        partnerServices: [],
+      };
+    case CLEAR_HOSPITALS:
+      return {
+        ...state,
+        hospitals: [],
+      };
+    case CLEAR_PATHOLOGIES:
+      return {
+        ...state,
+        pathologies: [],
+      };
+    case CLEAR_EMERGENCY_SERVICES:
+      return {
+        ...state,
+        emergencyServices: [],
+      };
     default:
       return state;
   }

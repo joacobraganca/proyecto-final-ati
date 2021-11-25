@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, SafeAreaView, ScrollView, Text} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {connect} from 'react-redux';
 
@@ -30,82 +30,90 @@ const PatientProfileScreen = ({
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.userData}>
-        <View style={styles.photo}>
-          <Icon size={80} name="user-alt" type="font-awesome-5" />
-        </View>
-        <View>
-          <Text style={styles.name}>{patient.name}</Text>
-        </View>
-      </View>
-      <View style={styles.rowContainer}>
-        <View style={styles.principalData}>
-          <View style={styles.item}>
-            <Icon
-              color="silver"
-              size={34}
-              name="hospital"
-              type="font-awesome-5"
-            />
-            <Text style={styles.itemsTitle}>Mutualista</Text>
-            <Text style={styles.itemsText}>{hospital}</Text>
+    <SafeAreaView style={{flex: 1}}>
+      <ScrollView>
+        <View style={styles.container}>
+          <View style={styles.userData}>
+            <View style={styles.photo}>
+              <Icon size={80} name="user-alt" type="font-awesome-5" />
+            </View>
+            <View>
+              <Text style={styles.name}>{patient.name}</Text>
+            </View>
           </View>
-          <View style={styles.item}>
-            <Icon
-              size={34}
-              color="silver"
-              name="ambulance"
-              type="font-awesome-5"
-            />
-            <Text style={styles.itemsTitle}>Serv. de emergencia</Text>
-            <Text style={styles.itemsText}>{emService}</Text>
+          <View style={styles.rowContainer}>
+            <View style={styles.principalData}>
+              <View style={styles.item}>
+                <Icon
+                  color="silver"
+                  size={34}
+                  name="hospital"
+                  type="font-awesome-5"
+                />
+                <Text style={styles.itemsTitle}>Mutualista</Text>
+                <Text style={styles.itemsText}>{hospital}</Text>
+              </View>
+              <View style={styles.item}>
+                <Icon
+                  size={34}
+                  color="silver"
+                  name="ambulance"
+                  type="font-awesome-5"
+                />
+                <Text style={styles.itemsTitle}>Serv. de emergencia</Text>
+                <Text style={styles.itemsText}>{emService}</Text>
+              </View>
+            </View>
+            <View style={styles.principalData}>
+              <View style={styles.item}>
+                <Icon
+                  size={34}
+                  color="silver"
+                  name="user-md"
+                  type="font-awesome-5"
+                />
+                <Text style={styles.itemsTitle}>Médico de cabecera</Text>
+                <Text style={styles.itemsText}>{patient.gpDoctor}</Text>
+              </View>
+              <View style={styles.item}>
+                <Icon
+                  size={34}
+                  color="silver"
+                  name="user-friends"
+                  type="font-awesome-5"
+                />
+                <Text style={styles.itemsTitle}>Serv. de acompañante</Text>
+                <Text style={styles.itemsText}>{partService}</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.secondaryData}>
+            <View style={styles.rowTitle}>
+              <Icon size={24} name="virus" type="font-awesome-5" />
+              <Text style={styles.title}>Patologías:</Text>
+            </View>
+            <View style={styles.content}>
+              {pathologiesList.map(p => (
+                <Text key={p.name}> - {p.name}</Text>
+              ))}
+            </View>
+          </View>
+          <View style={styles.secondaryData}>
+            <View style={styles.rowTitle}>
+              <Icon
+                size={24}
+                name="hand-holding-medical"
+                type="font-awesome-5"
+              />
+              <Text style={styles.title}>Cuidados y comentarios:</Text>
+            </View>
+            <View style={styles.content}>
+              <Text>{patient.caresAndComments}</Text>
+            </View>
           </View>
         </View>
-        <View style={styles.principalData}>
-          <View style={styles.item}>
-            <Icon
-              size={34}
-              color="silver"
-              name="user-md"
-              type="font-awesome-5"
-            />
-            <Text style={styles.itemsTitle}>Médico de cabecera</Text>
-            <Text style={styles.itemsText}>{patient.gpDoctor}</Text>
-          </View>
-          <View style={styles.item}>
-            <Icon
-              size={34}
-              color="silver"
-              name="user-friends"
-              type="font-awesome-5"
-            />
-            <Text style={styles.itemsTitle}>Serv. de acompañante</Text>
-            <Text style={styles.itemsText}>{partService}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.secondaryData}>
-        <View style={styles.rowTitle}>
-          <Icon size={24} name="virus" type="font-awesome-5" />
-          <Text style={styles.title}>Patologías:</Text>
-        </View>
-        <View style={styles.content}>
-          {pathologiesList.map(p => (
-            <Text key={p.name}> - {p.name}</Text>
-          ))}
-        </View>
-      </View>
-      <View style={styles.secondaryData}>
-        <View style={styles.rowTitle}>
-          <Icon size={24} name="hand-holding-medical" type="font-awesome-5" />
-          <Text style={styles.title}>Cuidados y comentarios:</Text>
-        </View>
-        <View style={styles.content}>
-          <Text>{patient.caresAndComments}</Text>
-        </View>
-      </View>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

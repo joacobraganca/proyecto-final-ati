@@ -1,4 +1,4 @@
-import {LIST_TASKS} from '../actions/types';
+import {LIST_TASKS, CLEAR_TASKS} from '../actions/types';
 
 const initialState = {
   otherTaskList: [],
@@ -13,8 +13,13 @@ const taskReducer = (state = initialState, action) => {
         otherTaskList: action.data.otherTasks,
         priorityTaskList: action.data.priorityTasks,
       };
-      return;
 
+    case CLEAR_TASKS:
+      return {
+        ...state,
+        otherTaskList: [],
+        priorityTaskList: [],
+      };
     default:
       return state;
   }

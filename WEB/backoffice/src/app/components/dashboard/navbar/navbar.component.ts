@@ -10,11 +10,13 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private patientService: PatientService) {}
+
 
   ngOnInit(): void {}
 
   logout() {
+    this.patientService.setPatients([]);
     localStorage.removeItem('access_token');
     this.router.navigate(['']);
   }

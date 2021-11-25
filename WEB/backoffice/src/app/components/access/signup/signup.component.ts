@@ -57,12 +57,17 @@ export class SignupComponent implements OnInit {
         .signup(name, password, document, healthHome._id, isAdmin)
         .subscribe(
           (response) => {
-            this.userService.setUser(response.body);
-            localStorage.setItem(
-              'access_token',
-              response.headers.get('Authorization') || ''
-            );
-            this.redirect();
+            if (isAdmin) {
+              this.userService.setUser(response.body);
+              localStorage.setItem(
+                'access_token',
+                response.headers.get('Authorization') || ''
+              );
+              this.redirect();
+            } else {
+              this.error('Enfermero registrado con éxito');
+            }
+
           },
           (error) => {
             if (error.status >= 400 && error.status < 500) {

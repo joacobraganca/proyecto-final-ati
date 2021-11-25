@@ -1,7 +1,7 @@
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import * as RootNavigation from '../../../navigation/RootNavigation';
+import {Icon} from 'react-native-elements';
 
 const CustomListItem = ({value}) => {
   return (
@@ -9,8 +9,25 @@ const CustomListItem = ({value}) => {
       <TouchableOpacity
         style={{width: '100%', flexDirection: 'row', alignItems: 'center'}}
         onPress={() => RootNavigation.navigate('PatientDetail', value._id)}>
-        <View style={styles.details}>
-          <Text>{value.name}</Text>
+        <View style={styles.photo}>
+          <Icon
+            name="user-alt"
+            color="skyblue"
+            size={26}
+            type="font-awesome-5"
+          />
+        </View>
+
+        <View style={styles.name}>
+          <Text style={styles.taskName}>{value.name}</Text>
+        </View>
+        <View style={styles.profile}>
+          <Icon
+            name="angle-right"
+            color="skyblue"
+            size={26}
+            type="font-awesome-5"
+          />
         </View>
       </TouchableOpacity>
     </View>
@@ -19,22 +36,33 @@ const CustomListItem = ({value}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#EDF9FC',
-    padding: 10,
-    fontSize: 18,
-    height: 80,
-    marginBottom: 5,
+    backgroundColor: 'white',
+    paddingVertical: 15,
+    marginBottom: 10,
     flexDirection: 'row',
     alignItems: 'center',
+    borderRadius: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
   },
-  checkbox: {
-    width: '20%',
+  photo: {
+    width: '10%',
   },
-  details: {
-    width: '50%',
+  name: {
+    paddingLeft: 10,
+    width: '80%',
   },
-  datetime: {
-    width: '30%',
+  profile: {
+    alignItems: 'center',
+    width: '10%',
+  },
+  taskName: {
+    fontSize: 16,
+    marginBottom: 2,
+  },
+  patientName: {
+    fontSize: 12,
+    marginBottom: 2,
   },
 });
 

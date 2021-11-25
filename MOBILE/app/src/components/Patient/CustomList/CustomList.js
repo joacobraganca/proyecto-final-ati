@@ -16,12 +16,9 @@ const CustomList = ({patients}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
-  },
-  data: {
     padding: 10,
-    fontSize: 18,
-    height: 44,
+    backgroundColor: '#EDF9FC',
+    height: '100%',
   },
 });
 

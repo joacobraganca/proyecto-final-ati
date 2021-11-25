@@ -1,8 +1,7 @@
-import * as React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Icon} from 'react-native-elements';
-
+import {Text} from 'react-native';
 import PatientProfileScreen from '../screens/PatientProfileScreen';
 import PatientContactsScreen from '../screens/PatientContactsScreen';
 
@@ -22,9 +21,11 @@ const Patients = ({id}) => {
         initialParams={{id}}
         component={PatientProfileScreen}
         options={{
-          tabBarLabel: 'Perfil',
+          tabBarLabel: ({color, size}) => (
+            <Text style={{color: color, fontSize: 12}}>Perfil</Text>
+          ),
           tabBarIcon: ({color, size}) => (
-            <Icon name="person" size={24} type="MaterialIcons" />
+            <Icon name="person" color={color} size={24} type="MaterialIcons" />
           ),
         }}
       />
@@ -33,9 +34,16 @@ const Patients = ({id}) => {
         initialParams={{id}}
         component={PatientContactsScreen}
         options={{
-          tabBarLabel: 'Contactos',
+          tabBarLabel: ({color, size}) => (
+            <Text style={{color: color, fontSize: 12}}>Contactos</Text>
+          ),
           tabBarIcon: ({color, size}) => (
-            <Icon name="address-book" size={24} type="font-awesome-5" />
+            <Icon
+              name="address-book"
+              color={color}
+              size={24}
+              type="font-awesome-5"
+            />
           ),
         }}
       />

@@ -60,5 +60,5 @@ buck-out/
 
 .env
 .history/
-
-.android/.gradle/
+.gradle
+#

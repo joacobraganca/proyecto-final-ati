@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, StyleSheet, View, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import CustomList from '../../components/Patient/CustomList/CustomList';
 import {connect} from 'react-redux';
 import {SearchBar} from 'react-native-elements';
@@ -31,7 +31,7 @@ const PatientsScreen = ({patients}) => {
           leftIconContainerStyle={{backgroundColor: 'white'}}
           inputStyle={{backgroundColor: 'white'}}
           containerStyle={{
-            backgroundColor: '#white',
+            backgroundColor: 'white',
             justifyContent: 'space-around',
             borderTopWidth: 0,
             borderBottomWidth: 0,

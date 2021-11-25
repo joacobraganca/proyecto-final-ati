@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet, View, Text} from 'react-native';
+import {Text} from 'react-native';
 import TasksScreen from '../screens/TasksScreen';
 import PatientsScreen from '../screens/PatientsScreen';
 import {Icon} from 'react-native-elements';
@@ -44,11 +44,4 @@ const Tabs = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  bar: {
-    position: 'absolute',
-    bottom: 0,
-  },
-  // tab: {alignItems: 'center', justifyContent: 'center', top: 10},
-});
 export default Tabs;

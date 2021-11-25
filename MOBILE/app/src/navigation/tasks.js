@@ -1,9 +1,7 @@
 import * as React from 'react';
-import {StyleSheet, View, Text, Dimensions} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import PriorityTaskScreen from '../screens/PriorityTaskScreen';
 import OtherTaskScreen from '../screens/OtherTaskScreen';
-import {NavigationContainer} from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 

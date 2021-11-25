@@ -1,7 +1,6 @@
 import {LOGIN, NOTIFICATION} from '../utils/urls';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
-import {Alert} from 'react-native';
 
 const login = async (user, password, setError) => {
   try {

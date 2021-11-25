@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet} from 'react-native';
 import Modal from 'react-native-modal';
 
 const CustomModal = ({visible, setVisible}) => {

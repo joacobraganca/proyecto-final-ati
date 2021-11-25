@@ -67,6 +67,7 @@ export class SignupComponent implements OnInit {
             } else {
               this.error('Enfermero registrado con éxito');
             }
+
           },
           (error) => {
             if (error.status >= 400 && error.status < 500) {

@@ -12,6 +12,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class NavbarComponent implements OnInit {
   constructor(private router: Router, private patientService: PatientService) {}
 
+
   ngOnInit(): void {}
 
   logout() {

@@ -80,7 +80,6 @@ export class TareasComponent implements OnInit, OnDestroy {
                   .getPatientsLocal()
                   .find((x) => x._id === task.assignedPatient)?.name || '';
               task.dateTime = this.formatDate(task.dateTime);
-
               auxList.push(task);
             });
             this.tareas = auxList;
@@ -107,6 +106,7 @@ export class TareasComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.ngOnInit();
+
     });
   }
 

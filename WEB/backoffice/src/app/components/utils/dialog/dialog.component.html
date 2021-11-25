@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>{{ title }}</h1>
+<div mat-dialog-content>
+  {{ text }}
+</div>
+<div mat-dialog-actions>
+  <button *ngIf="mode === 'show'" mat-button mat-dialog-close>Cerrar</button>
+  <button *ngIf="mode === 'validate'" mat-button mat-dialog-close>
+    Aceptar
+  </button>
+</div>

@@ -1,0 +1,36 @@
+<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
+<form *ngIf="!loading" [formGroup]="loginForm" (ngSubmit)="doLogin()">
+  <h3>Iniciar sesión</h3>
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Documento</mat-label>
+    <input matInput formControlName="document" autocomplete="off" />
+  </mat-form-field>
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Contraseña</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      type="password"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <button
+    type="submit"
+    class="login-element-width button"
+    [disabled]="loginForm.invalid"
+    mat-raised-button
+    color="primary"
+  >
+    Iniciar sesión
+  </button>
+</form>
+<button
+  *ngIf="!loading"
+  class="button"
+  mat-button
+  color="primary"
+  (click)="goSignup()"
+>
+  Registrarme
+</button>

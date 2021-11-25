@@ -1,0 +1,65 @@
+<mat-spinner *ngIf="loading" class="spinner" diameter="50"></mat-spinner>
+
+<form *ngIf="!loading" [formGroup]="signupForm" (ngSubmit)="doSignup()">
+  <h3>Registro</h3>
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Nombre completo</mat-label>
+    <input matInput formControlName="name" autocomplete="off" />
+  </mat-form-field>
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Documento</mat-label>
+    <input matInput formControlName="document" autocomplete="off" />
+  </mat-form-field>
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Contraseña</mat-label>
+    <input
+      matInput
+      formControlName="password"
+      type="password"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Repetir contraseña</mat-label>
+    <input
+      matInput
+      formControlName="repeatPassword"
+      type="password"
+      autocomplete="off"
+    />
+  </mat-form-field>
+
+  <mat-form-field class="login-element-width" appearance="fill">
+    <mat-label>Casa de salud:</mat-label>
+    <mat-select required name="healthHome" formControlName="healthHome">
+      <mat-option *ngFor="let home of healthHomes" [value]="home">
+        {{ home.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="center">
+    <mat-checkbox formControlName="isAdmin" class="example-margin"
+      >¿Es administrador?</mat-checkbox
+    >
+  </div>
+
+  <button
+    type="submit"
+    class="login-element-width button"
+    [disabled]="signupForm.invalid"
+    mat-raised-button
+    color="primary"
+  >
+    Registrarme
+  </button>
+</form>
+<button
+  *ngIf="!loading"
+  class="button"
+  mat-button
+  color="primary"
+  (click)="goLogin()"
+>
+  volver a inicio de sesión
+</button>

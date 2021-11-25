@@ -1,0 +1,12 @@
+<div class="body">
+  <div class="form">
+    <img class="img" src="./assets/img/logo.png" alt="login image" />
+    <h1>Casa de Salud</h1>
+    <div *ngIf="isLogin">
+      <app-login [(isLogin)]="isLogin"></app-login>
+    </div>
+    <div *ngIf="!isLogin">
+      <app-signup [(isLogin)]="isLogin"></app-signup>
+    </div>
+  </div>
+</div>

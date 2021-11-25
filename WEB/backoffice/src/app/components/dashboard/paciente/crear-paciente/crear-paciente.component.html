@@ -1,0 +1,159 @@
+<div class="nav-1">
+  <mat-icon mat-dialog-close>cancel</mat-icon>
+</div>
+
+<mat-stepper linear #stepper>
+  <mat-step [stepControl]="firstFormGroup" [editable]="isEditable">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Datos personales</ng-template>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Número de documento (C.I)</mat-label>
+        <input
+          matInput
+          formControlName="document"
+          placeholder="Ej.: 1.234.567-8"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Nombre completo</mat-label>
+        <input
+          matInput
+          formControlName="name"
+          placeholder="Ej.: Atilio García"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <div *ngIf="firstStepInvalid">
+        <h4>Rellene todos los campos</h4>
+      </div>
+      <div class="nav-1">
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" [editable]="isEditable">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Datos médicos</ng-template>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Mutualista:</mat-label>
+        <mat-select required name="mutualist" formControlName="mutualist">
+          <mat-option
+            *ngFor="let mutualist of hospitalsList"
+            [value]="mutualist"
+            >{{ mutualist.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Médico de cabecera</mat-label>
+        <input
+          matInput
+          name="primaryDoctor"
+          formControlName="primaryDoctor"
+          placeholder=""
+          autocomplete="off"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Servicio de emergencia:</mat-label>
+        <mat-select
+          required
+          name="emergencyService"
+          formControlName="emergencyService"
+        >
+          <mat-option
+            *ngFor="let emergency of emergencyServicesList"
+            [value]="emergency"
+            >{{ emergency.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Servicio de acompañante:</mat-label>
+        <mat-select required name="accompanying" formControlName="accompanying">
+          <mat-option
+            *ngFor="let partner of partnerServicesList"
+            [value]="partner"
+            >{{ partner.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Patologias</mat-label>
+        <mat-select formControlName="pathologies" multiple>
+          <mat-option
+            *ngFor="let pathology of pathologiesList"
+            [value]="pathology"
+            >{{ pathology.name }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="input" appearance="fill">
+        <mat-label>Cuidados</mat-label>
+        <textarea
+          formControlName="cares"
+          matInput
+          placeholder="Dormir de lado."
+        ></textarea>
+      </mat-form-field>
+      <div class="nav-2">
+        <button mat-button matStepperPrevious>Anterior</button>
+        <button mat-button matStepperNext>Siguiente</button>
+      </div>
+      <div *ngIf="secondStepInvalid">
+        <h4>Rellene todos los campos</h4>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Contactos</ng-template>
+    <form [formGroup]="thirdFormGroup">
+      <div
+        formArrayName="contacts"
+        *ngFor="let contact of rows.controls; let i = index"
+      >
+        <div class="row" [formGroupName]="i">
+          <mat-form-field class="input-half" appearance="fill">
+            <input
+              matInput
+              formControlName="contactName"
+              placeholder="Nombre"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="input-half" appearance="fill">
+            <input
+              type="number"
+              matInput
+              formControlName="contactPhone"
+              placeholder="Número"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <button mat-mini-fab color="primary" (click)="addRow()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="thirdStepInvalid">
+      <h4>Ingrese al menos 1 contacto</h4>
+    </div>
+    <div class="nav-2">
+      <button mat-button matStepperPrevious>Anterior</button>
+      <button mat-raised-button color="primary" (click)="finishSteps(stepper)">
+        Guardar paciente
+      </button>
+    </div>
+  </mat-step>
+</mat-stepper>

@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/dashboard">
+    <h1>Casa de salud</h1>
+  </button>
+  <span class="example-spacer"></span>
+
+  <button mat-button routerLink="tasks">Tareas</button>
+
+  <button mat-button routerLink="patients">Pacientes</button>
+
+  <span class="example-spacer"></span>
+
+  <button mat-icon-button class="primary" routerLink="">
+    <mat-icon (click)="logout()">logout</mat-icon>
+  </button>
+</mat-toolbar>

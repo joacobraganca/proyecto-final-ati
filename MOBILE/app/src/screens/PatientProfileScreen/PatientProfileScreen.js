@@ -30,7 +30,7 @@ const PatientProfileScreen = ({
   });
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={styles.bg}>
       <ScrollView>
         <View style={styles.container}>
           <View style={styles.userData}>
@@ -128,6 +128,10 @@ const mapStateToProps = state => {
 };
 
 const styles = StyleSheet.create({
+  bg: {
+    flex: 1,
+    backgroundColor: '#EDF9FC',
+  },
   container: {
     padding: 10,
     backgroundColor: '#EDF9FC',

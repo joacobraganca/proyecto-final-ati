@@ -46,7 +46,7 @@ router.post("", verify, async (req, res) => {
 //Delete de pacient
 router.delete("", verify, async (req, res) => {
   try {
-    if (await Patient.findOneAndRemove(req.query.document)) {
+    if (await Patient.findOneAndRemove({ document: req.query.document })) {
       return res.status(200).send("El paciente se ha borrado correctamente");
     }
     return res.status(404).send("No se ha encontrado ningún paciente");
@@ -85,8 +85,7 @@ router.put("", verify, async (req, res) => {
 //Get de pacientes por id
 router.get("", verify, async (req, res) => {
   const patient = await Patient.find({ _id: req.query._id });
-  if (!patient.length)
-    return res.status(404).send("No existe ese paciente.");
+  if (!patient.length) return res.status(404).send("No existe ese paciente.");
   else return res.status(200).send(patient);
 });
 
